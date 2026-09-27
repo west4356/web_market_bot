@@ -9,18 +9,20 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "8829323588:AAEm3sgZK47awtnMNoUexvwdbcDmpeWAM
 # Admin IDs (Telegram User IDs who receive order alerts and can manage orders)
 ADMIN_IDS = [
     # Add your Telegram numeric user ID here (e.g. 123456789)
-    # The first user who clicks /admin or /start with secret can also be set
 ]
 
+# Dedicated Channel for Orders (e.g. "@YourOrdersChannel" or "-100xxxxxxxxxx")
+ORDERS_CHANNEL_ID = os.getenv("ORDERS_CHANNEL_ID", "")
+
 # Web Server Configuration
-SERVER_HOST = "127.0.0.1"
-SERVER_PORT = 8080
+SERVER_HOST = os.getenv("SERVER_HOST", "0.0.0.0")
+SERVER_PORT = int(os.getenv("PORT", "8080"))
 
 # Database
 DB_PATH = str(BASE_DIR / "market.db")
 
-# Public WebApp URL (will be updated dynamically when tunnel starts)
-WEBAPP_URL = os.getenv("WEBAPP_URL", "")
+# Public WebApp URL (supports auto-detection on Render.com, Railway, etc.)
+WEBAPP_URL = os.getenv("WEBAPP_URL") or os.getenv("RENDER_EXTERNAL_URL", "")
 
 # Crypto Wallets for Payment
 CRYPTO_CONFIG = {

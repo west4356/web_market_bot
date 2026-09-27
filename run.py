@@ -37,22 +37,26 @@ async def main():
     database.init_db()
     logger.info("Database ready at %s", config.DB_PATH)
 
-    # 2. Start Cloudflare HTTPS Tunnel
+    # 2. Start Cloudflare HTTPS Tunnel (if running locally without pre-configured URL)
     tunnel = None
     if not config.WEBAPP_URL:
-        logger.info("Starting Cloudflare tunnel to obtain public HTTPS URL for Telegram...")
-        tunnel = CloudflareTunnel(port=config.SERVER_PORT)
-        try:
-            public_url = tunnel.start(timeout=25)
-            if public_url:
-                config.WEBAPP_URL = public_url
-                print("\n" + "*" * 60)
-                print(f"🌐  PUBLIC HTTPS WEB APP URL: {public_url}")
-                print("*" * 60 + "\n")
-            else:
-                logger.warning("Cloudflare tunnel timed out. Using localhost fallback.")
-        except Exception as e:
-            logger.error(f"Failed to start Cloudflare tunnel: {e}")
+        from tunnel import CLOUDFLARED_PATH
+        if CLOUDFLARED_PATH.exists():
+            logger.info("Starting Cloudflare tunnel to obtain public HTTPS URL for Telegram...")
+            tunnel = CloudflareTunnel(port=config.SERVER_PORT)
+            try:
+                public_url = tunnel.start(timeout=25)
+                if public_url:
+                    config.WEBAPP_URL = public_url
+                    print("\n" + "*" * 60)
+                    print(f"🌐  PUBLIC HTTPS WEB APP URL: {public_url}")
+                    print("*" * 60 + "\n")
+                else:
+                    logger.warning("Cloudflare tunnel timed out. Using localhost fallback.")
+            except Exception as e:
+                logger.error(f"Failed to start Cloudflare tunnel: {e}")
+        else:
+            logger.info("Running in cloud/production mode (no cloudflared.exe). Using host URL.")
     else:
         print(f"Using pre-configured WebApp URL: {config.WEBAPP_URL}")
 

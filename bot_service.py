@@ -130,7 +130,20 @@ async def notify_admins(order: dict):
             if row["id"] not in admins:
                 admins.append(row["id"])
                 
-    if not admins:
+    # 1. Post to Dedicated Orders Channel if configured
+    if config.ORDERS_CHANNEL_ID:
+        try:
+            await bot_app.bot.send_message(
+                chat_id=config.ORDERS_CHANNEL_ID,
+                text=admin_text,
+                reply_markup=keyboard,
+                parse_mode="HTML"
+            )
+            logger.info("Order alert posted to channel %s", config.ORDERS_CHANNEL_ID)
+        except Exception as e:
+            logger.error(f"Failed to post order to channel {config.ORDERS_CHANNEL_ID}: {e}")
+
+    if not admins and not config.ORDERS_CHANNEL_ID:
         return
         
     order_uuid = order.get("order_uuid")
@@ -437,8 +450,16 @@ async def callback_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
         order_uuid = data.replace("adm_done_", "")
         order = database.update_order_status(order_uuid, "completed")
         if order:
+            # Reward referrer 5% commission in Stars
+            try:
+                database.reward_referrer_commission(
+                    buyer_id=order["user_id"],
+                    order_stars=order.get("price_stars", 0)
+                )
+            except Exception as e:
+                logger.warning("Could not reward referral commission: %s", e)
             await notify_customer_order(order, event="completed")
-            await query.edit_message_text(f"✅ Order #{order_uuid} marked as COMPLETED and customer notified!")
+            await query.edit_message_text(f"✅ Order #{order_uuid} marked as COMPLETED, customer notified & referral rewarded!")
         else:
             await query.edit_message_text(f"Order #{order_uuid} not found.")
             
