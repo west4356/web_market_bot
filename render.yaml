@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: web-market-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run.py
+    envVars:
+      - key: BOT_TOKEN
+        value: 8829323588:AAGGNeGN0Ve87XMrUnQAPtoYSn97LTDBTdM
+      - key: PORT
+        value: 8080
