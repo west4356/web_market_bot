@@ -46,9 +46,9 @@
 
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
-      <button class="nav-tab active" data-tab="reactions">
+      <button class="nav-tab active" data-tab="stars">
         <span class="tab-icon">⭐</span>
-        <span class="tab-label" data-i18n="tab_reactions">Reactions</span>
+        <span class="tab-label" data-i18n="tab_stars">Buy Stars</span>
       </button>
       <button class="nav-tab" data-tab="premium">
         <span class="tab-icon">💎</span>
@@ -56,7 +56,7 @@
       </button>
       <button class="nav-tab" data-tab="gifts">
         <span class="tab-icon">🎁</span>
-        <span class="tab-label" data-i18n="tab_gifts">3D Gifts</span>
+        <span class="tab-label" data-i18n="tab_gifts">Gifts (15-100⭐)</span>
       </button>
       <button class="nav-tab" data-tab="referrals">
         <span class="tab-icon">👥</span>
@@ -72,46 +72,35 @@
     <!-- Main Content Area -->
     <main class="main-content">
       
-      <!-- ================= TAB 1: PAID REACTIONS (STARS) ================= -->
-      <section id="tab-reactions" class="tab-content active">
+      <!-- ================= TAB 1: BUY TELEGRAM STARS (FIRST PAGE, MIN 50 STARS FRAGMENT STYLE) ================= -->
+      <section id="tab-stars" class="tab-content active">
         <!-- Hero Card -->
         <div class="hero-card reactions-hero">
-          <div class="hero-badge">⚡ Instant Algorithm Boost</div>
-          <h2>Telegram Paid Reactions</h2>
-          <p>Boost your channel post engagement and monetization with Telegram Stars paid reactions.</p>
+          <div class="hero-badge">⚡ Fragment Style • Min. 50 Stars</div>
+          <h2>Buy Telegram Stars</h2>
+          <p>Instant deposit of Telegram Stars directly to your Telegram ID account balance (not to web apps account, not to channel posts). Minimum 50 Stars like Fragment!</p>
         </div>
 
-        <!-- Target Link Input -->
+        <!-- Target Username / ID Input -->
         <div class="input-card">
-          <label for="reactTarget" class="input-label">
-            <span data-i18n="label_post_link">Telegram Post / Channel Link</span>
+          <label for="starsTarget" class="input-label">
+            <span>Recipient Telegram ID or Username</span>
             <span class="required">*</span>
           </label>
           <div class="input-wrapper">
-            <span class="input-icon">🔗</span>
-            <input type="text" id="reactTarget" placeholder="https://t.me/channel_name/123" />
-            <button class="paste-btn" id="reactPasteBtn" type="button">Paste</button>
+            <span class="input-icon">@</span>
+            <input type="text" id="starsTarget" placeholder="@username or Telegram ID (e.g. 123456789)" />
+            <button class="myself-btn" id="starsSelfBtn" type="button">For Myself</button>
           </div>
-          <span class="input-hint">Enter public channel post link. The post must have paid reactions enabled.</span>
-        </div>
-
-        <!-- Modern Emoji / Sticker Picker -->
-        <div class="section-block">
-          <div class="section-title">
-            <span data-i18n="choose_emoji">Choose Reaction Sticker</span>
-            <span class="selected-emoji-indicator" id="selectedEmojiPreview">⭐ Star</span>
-          </div>
-          <div class="emoji-grid modern-sticker-grid" id="emojiGrid">
-            <!-- Dynamically populated -->
-          </div>
+          <span class="input-hint">⚡ Stars are credited directly to this Telegram ID account balance!</span>
         </div>
 
         <!-- Package Selection -->
         <div class="section-block">
           <div class="section-title">
-            <span data-i18n="select_package">Select Stars Package</span>
+            <span>Select Stars Package (Min. 50 ⭐)</span>
           </div>
-          <div class="packages-grid" id="reactionsPackagesGrid">
+          <div class="packages-grid" id="starsPackagesGrid">
             <!-- Injected by app.js -->
           </div>
         </div>
@@ -119,51 +108,51 @@
         <!-- Custom Stars Amount Option -->
         <div class="custom-stars-card">
           <div class="custom-header">
-            <span>✨ Or Enter Custom Stars:</span>
+            <span>✨ Or Enter Custom Stars (Min. 50):</span>
             <span class="custom-price-tag" id="customPriceTag">$0.00</span>
           </div>
           <div class="custom-input-row">
-            <input type="number" id="customStarsInput" min="50" max="50000" step="50" placeholder="e.g. 750" />
+            <input type="number" id="customStarsInput" min="50" max="50000" step="10" placeholder="Min. 50 Stars (e.g. 500)" />
             <span class="stars-unit">Stars ⭐</span>
           </div>
         </div>
 
         <!-- Action Button -->
         <div class="action-container">
-          <button class="primary-btn glow-btn" id="btnOrderReactions">
-            <span>Order Paid Reactions</span>
-            <span class="btn-price" id="reactBtnPrice">$0.99</span>
+          <button class="primary-btn glow-btn" id="btnOrderStars">
+            <span>Buy Stars to Account</span>
+            <span class="btn-price" id="starsBtnPrice">$0.99</span>
           </button>
         </div>
       </section>
 
-      <!-- ================= TAB 2: TELEGRAM PREMIUM ================= -->
+      <!-- ================= TAB 2: TELEGRAM PREMIUM (3m, 6m, 1y SUBSCRIPTIONS) ================= -->
       <section id="tab-premium" class="tab-content">
         <!-- Banner Card -->
         <div class="hero-card premium-hero">
-          <div class="hero-badge">💎 Save up to 45%</div>
+          <div class="hero-badge">💎 Instant Telegram Payments</div>
           <h2>Telegram Premium Subscriptions</h2>
-          <p>Gift Telegram Premium to any account instantly without requiring a bank card.</p>
+          <p>Activate 3 months, 6 months, or 12 months (1 year) Telegram Premium subscriptions for your account or gift to friends with Telegram payments.</p>
         </div>
 
         <!-- Target Username Input -->
         <div class="input-card">
           <label for="premTarget" class="input-label">
-            <span data-i18n="label_recipient">Recipient Telegram Username</span>
+            <span data-i18n="label_recipient">Recipient Telegram ID or Username</span>
             <span class="required">*</span>
           </label>
           <div class="input-wrapper">
             <span class="input-icon">@</span>
-            <input type="text" id="premTarget" placeholder="username" />
+            <input type="text" id="premTarget" placeholder="@username or Telegram ID" />
             <button class="myself-btn" id="premSelfBtn" type="button">For Myself</button>
           </div>
-          <span class="input-hint">Subscription will be delivered directly as an official Telegram gift.</span>
+          <span class="input-hint">Subscription is unlocked directly on this Telegram account.</span>
         </div>
 
         <!-- Duration Packages -->
         <div class="section-block">
           <div class="section-title">
-            <span data-i18n="select_duration">Select Duration</span>
+            <span data-i18n="select_duration">Select Subscription Duration</span>
           </div>
           <div class="premium-packages" id="premiumPackagesGrid">
             <!-- Injected by app.js -->
@@ -173,7 +162,7 @@
         <!-- Premium Perks Showcase -->
         <div class="section-block perks-section">
           <div class="section-title">
-            <span>👑 Premium Privileges</span>
+            <span>👑 Premium Privileges Unlocked</span>
           </div>
           <div class="perks-grid" id="perksGrid">
             <!-- Injected by app.js -->
@@ -183,30 +172,30 @@
         <!-- Action Button -->
         <div class="action-container">
           <button class="primary-btn glow-btn" id="btnOrderPremium">
-            <span>Gift Telegram Premium</span>
+            <span>Buy Telegram Premium</span>
             <span class="btn-price" id="premBtnPrice">$16.99</span>
           </button>
         </div>
       </section>
 
-      <!-- ================= TAB 3: MODERN 3D GIFTS ================= -->
+      <!-- ================= TAB 3: TELEGRAM GIFTS (15 TO 100 STARS) ================= -->
       <section id="tab-gifts" class="tab-content">
         <!-- Banner Card -->
         <div class="hero-card gifts-hero">
-          <div class="hero-badge">🎁 3D Collectible Stickers</div>
+          <div class="hero-badge">🎁 15 to 100 Stars • Nothing More</div>
           <h2>Telegram Profile Gifts</h2>
-          <p>Send modern 3D collectible gifts. Recipients can showcase them on their profile or convert them into Stars!</p>
+          <p>Buy official Telegram collectible profile gifts ranging from 15 Stars to 100 Stars. Showcase on your profile or convert into Stars!</p>
         </div>
 
         <!-- Recipient Username -->
         <div class="input-card">
           <label for="giftTarget" class="input-label">
-            <span data-i18n="label_gift_recipient">Recipient Username</span>
+            <span data-i18n="label_gift_recipient">Recipient Telegram ID or Username</span>
             <span class="required">*</span>
           </label>
           <div class="input-wrapper">
             <span class="input-icon">@</span>
-            <input type="text" id="giftTarget" placeholder="recipient_username" />
+            <input type="text" id="giftTarget" placeholder="@username or Telegram ID" />
             <button class="myself-btn" id="giftSelfBtn" type="button">For Myself</button>
           </div>
         </div>
@@ -226,7 +215,7 @@
         <div class="toggle-card">
           <div class="toggle-info">
             <div class="toggle-title">🕵️ Send Anonymously</div>
-            <div class="toggle-desc">Hide your identity so only the recipient knows who sent it.</div>
+            <div class="toggle-desc">Hide your identity so only the recipient sees who sent it.</div>
           </div>
           <label class="switch">
             <input type="checkbox" id="giftAnonymous" />
@@ -237,7 +226,7 @@
         <!-- Gifts Showcase Grid -->
         <div class="section-block">
           <div class="section-title">
-            <span data-i18n="choose_gift">Choose a 3D Collectible Gift</span>
+            <span data-i18n="choose_gift">Choose a Collectible Gift (15 ⭐ - 100 ⭐)</span>
           </div>
           <div class="gifts-grid modern-gifts-grid" id="giftsGrid">
             <!-- Injected by app.js -->
@@ -248,7 +237,7 @@
         <div class="action-container">
           <button class="primary-btn glow-btn" id="btnOrderGift">
             <span>Send Telegram Gift</span>
-            <span class="btn-price" id="giftBtnPrice">$1.49</span>
+            <span class="btn-price" id="giftBtnPrice">15 ⭐ / $0.35</span>
           </button>
         </div>
       </section>

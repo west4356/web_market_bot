@@ -28,6 +28,7 @@ app.add_middleware(
 async def add_security_headers(request: Request, call_next):
     response = await call_next(request)
     response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Content-Security-Policy"] = "frame-ancestors * https://*.telegram.org https://web.telegram.org;"
     if "x-frame-options" in response.headers:
         del response.headers["x-frame-options"]
     return response
@@ -38,7 +39,7 @@ STATIC_DIR = BASE_DIR / "static"
 # Mount static folder
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root():
     index_file = STATIC_DIR / "index.html"
     if not index_file.exists():
@@ -138,7 +139,11 @@ async def api_create_order(req: CreateOrderRequest):
         invoice_link = None
         order_status = "pending"
 
-        # Check payment method: PAY FROM STARS BALANCE
+        # 1. Minimum 50 Stars check for Stars purchases (Fragment standard)
+        if req.category == "stars" and req.price_stars < 50:
+            raise HTTPException(status_code=400, detail="Minimum purchase is 50 Telegram Stars (Fragment standard).")
+
+        # 2. Paying for products with existing Stars balance
         if req.payment_method == "balance":
             success = database.deduct_balance(
                 user_id=req.user_id,
@@ -169,11 +174,12 @@ async def api_create_order(req: CreateOrderRequest):
             database.update_order_status(order["order_uuid"], "paid", tx_hash="IN_APP_BALANCE")
             order["status"] = "paid"
             
-            # Reward referrer commission (10%)
+            # Reward referrer commission (5%)
             reward = database.reward_referrer_commission(req.user_id, req.price_stars)
-            if reward and bot_service.bot_app:
+            if reward:
                 try:
-                    await bot_service.bot_app.bot.send_message(
+                    bot = bot_service.get_bot_instance()
+                    await bot.send_message(
                         chat_id=reward["referrer_id"],
                         text=(
                             f"🎁 <b>Referral Reward Received!</b>\n\n"

@@ -1,9 +1,9 @@
 # Official Product Catalog for Telegram Market Web App
-# Gifts and Stars updated to match official Telegram App Gifts and pricing
+# Stars (min 50 Stars Fragment-style), Telegram Premium (3m, 6m, 1y), and Gifts (15 to 100 Stars)
 
 CATALOG = {
     "topup_packages": [
-        {"stars": 50, "price_usd": 0.99, "badge": "Starter"},
+        {"stars": 50, "price_usd": 0.99, "badge": "Starter (Min)"},
         {"stars": 100, "price_usd": 1.89, "badge": "Popular"},
         {"stars": 250, "price_usd": 4.49, "badge": "+5% Bonus"},
         {"stars": 500, "price_usd": 8.49, "badge": "Best Value"},
@@ -11,98 +11,87 @@ CATALOG = {
         {"stars": 2500, "price_usd": 36.99, "badge": "PRO Trader"},
         {"stars": 5000, "price_usd": 69.99, "badge": "VIP Whale"}
     ],
-    "reactions": {
-        "title": "Telegram Paid Reactions",
-        "description": "Boost your channel posts with Telegram Stars paid reactions. Fast delivery, organic algorithm boost, channel monetization.",
+    "stars": {
+        "title": "Buy Telegram Stars",
+        "description": "Buy Telegram Stars directly to your Telegram ID account (Fragment style). Minimum 50 Stars.",
         "icon": "⭐",
+        "min_stars": 50,
         "packages": [
             {
-                "id": "react_50",
-                "name": "50 Paid Stars Reactions",
+                "id": "stars_50",
+                "name": "50 Telegram Stars",
                 "stars_count": 50,
                 "price_usd": 0.99,
                 "price_stars": 50,
-                "badge": "Popular",
-                "delivery_time": "5-15 min",
-                "description": "50 Telegram Stars distributed to your selected post."
+                "badge": "Min 50 ⭐",
+                "delivery_time": "Instant ⚡",
+                "description": "50 Telegram Stars deposited directly to your Telegram ID account balance."
             },
             {
-                "id": "react_100",
-                "name": "100 Paid Stars Reactions",
+                "id": "stars_100",
+                "name": "100 Telegram Stars",
                 "stars_count": 100,
                 "price_usd": 1.89,
                 "price_stars": 100,
-                "badge": "Hot",
-                "delivery_time": "5-20 min",
-                "description": "100 Telegram Stars to jump-start channel engagement."
+                "badge": "Popular",
+                "delivery_time": "Instant ⚡",
+                "description": "100 Telegram Stars deposited directly to your Telegram ID account balance."
             },
             {
-                "id": "react_250",
-                "name": "250 Paid Stars Reactions",
+                "id": "stars_250",
+                "name": "250 Telegram Stars",
                 "stars_count": 250,
                 "price_usd": 4.49,
                 "price_stars": 250,
-                "badge": "-10%",
-                "delivery_time": "10-30 min",
-                "description": "250 Stars reactions for viral reach on Telegram search."
+                "badge": "+5% Bonus",
+                "delivery_time": "Instant ⚡",
+                "description": "250 Telegram Stars deposited directly to your Telegram ID account balance."
             },
             {
-                "id": "react_500",
-                "name": "500 Paid Stars Reactions",
+                "id": "stars_500",
+                "name": "500 Telegram Stars",
                 "stars_count": 500,
                 "price_usd": 8.49,
                 "price_stars": 500,
                 "badge": "Best Value",
-                "delivery_time": "15-45 min",
-                "description": "500 Stars reactions to dominate Telegram post rankings."
+                "delivery_time": "Instant ⚡",
+                "description": "500 Telegram Stars deposited directly to your Telegram ID account balance."
             },
             {
-                "id": "react_1000",
-                "name": "1,000 Paid Stars Reactions",
+                "id": "stars_1000",
+                "name": "1,000 Telegram Stars",
                 "stars_count": 1000,
                 "price_usd": 15.99,
                 "price_stars": 1000,
-                "badge": "-20%",
-                "delivery_time": "30-60 min",
-                "description": "1,000 Stars reactions for major announcements & giveaways."
+                "badge": "+10% Bonus",
+                "delivery_time": "Instant ⚡",
+                "description": "1,000 Telegram Stars deposited directly to your Telegram ID account balance."
             },
             {
-                "id": "react_2500",
-                "name": "2,500 Paid Stars Reactions",
+                "id": "stars_2500",
+                "name": "2,500 Telegram Stars",
                 "stars_count": 2500,
                 "price_usd": 36.99,
                 "price_stars": 2500,
                 "badge": "PRO",
-                "delivery_time": "1-2 hours",
-                "description": "2,500 Stars for maximum channel monetization & visibility."
+                "delivery_time": "Instant ⚡",
+                "description": "2,500 Telegram Stars deposited directly to your Telegram ID account balance."
             },
             {
-                "id": "react_5000",
-                "name": "5,000 Paid Stars Reactions",
+                "id": "stars_5000",
+                "name": "5,000 Telegram Stars",
                 "stars_count": 5000,
                 "price_usd": 69.99,
                 "price_stars": 5000,
-                "badge": "ULTRA",
-                "delivery_time": "1-3 hours",
-                "description": "5,000 Stars reactions package for elite channels & brands."
+                "badge": "VIP Whale",
+                "delivery_time": "Instant ⚡",
+                "description": "5,000 Telegram Stars deposited directly to your Telegram ID account balance."
             }
-        ],
-        "emoji_options": [
-            {"emoji": "⭐", "name": "Star", "color": "#ffbe0b"},
-            {"emoji": "🔥", "name": "Fire", "color": "#ff5400"},
-            {"emoji": "❤️", "name": "Heart", "color": "#ff0054"},
-            {"emoji": "👍", "name": "Thumbs Up", "color": "#48cae4"},
-            {"emoji": "🚀", "name": "Rocket", "color": "#7209b7"},
-            {"emoji": "🎉", "name": "Party", "color": "#f72585"},
-            {"emoji": "👏", "name": "Applause", "color": "#ffd166"},
-            {"emoji": "🏆", "name": "Trophy", "color": "#ffb703"},
-            {"emoji": "💎", "name": "Diamond", "color": "#00b4d8"},
-            {"emoji": "⚡", "name": "Lightning", "color": "#fee440"}
         ]
     },
     "premium": {
-        "title": "Telegram Premium",
-        "description": "Upgrade any account or gift Telegram Premium without needing bank cards. Instant activation.",
+        "title": "Telegram Premium Subscriptions",
+        "description": "Upgrade your Telegram account or gift Telegram Premium (3, 6, or 12 months) via Telegram payments. Instant activation without bank cards.",
         "icon": "💎",
         "packages": [
             {
@@ -111,9 +100,9 @@ CATALOG = {
                 "duration_months": 3,
                 "price_usd": 11.99,
                 "price_stars": 600,
-                "badge": "Entry",
+                "badge": "3 Months",
                 "savings": "Save 15%",
-                "description": "3 Months of full Telegram Premium unlocked on recipient profile."
+                "description": "3 Months full Telegram Premium subscription unlocked on your Telegram account."
             },
             {
                 "id": "prem_6m",
@@ -123,7 +112,7 @@ CATALOG = {
                 "price_stars": 850,
                 "badge": "Popular",
                 "savings": "Save 25%",
-                "description": "6 Months Telegram Premium gift delivered directly to Telegram account."
+                "description": "6 Months Telegram Premium subscription delivered directly to your Telegram account."
             },
             {
                 "id": "prem_12m",
@@ -149,140 +138,164 @@ CATALOG = {
     },
     "gifts": {
         "title": "Telegram Gifts",
-        "description": "Official Telegram collectible profile gifts. Can be displayed on profile or converted into Stars.",
+        "description": "Official Telegram collectible profile gifts (15 to 100 Stars). Buy to your account or send to friends!",
         "icon": "🎁",
+        "min_stars": 15,
+        "max_stars": 100,
         "packages": [
             {
-                "id": "gift_star",
-                "name": "Green Star",
-                "emoji": "⭐",
+                "id": "gift_heart",
+                "name": "Heart",
+                "emoji": "❤️",
                 "stars_value": 15,
                 "price_usd": 0.35,
                 "price_stars": 15,
-                "badge": "Official 15 ⭐",
-                "glow_color": "#2ec4b6",
-                "description": "Official Telegram Mini Star gift to show appreciation."
-            },
-            {
-                "id": "gift_cake",
-                "name": "Delicious Cake",
-                "emoji": "🎂",
-                "stars_value": 25,
-                "price_usd": 0.59,
-                "price_stars": 25,
-                "badge": "Official 25 ⭐",
-                "glow_color": "#ff758f",
-                "description": "Celebratory birthday or greeting cake with sparkling candles."
-            },
-            {
-                "id": "gift_heart",
-                "name": "Red Heart",
-                "emoji": "❤️",
-                "stars_value": 50,
-                "price_usd": 1.19,
-                "price_stars": 50,
-                "badge": "Official 50 ⭐",
+                "badge": "15 ⭐",
                 "glow_color": "#ff0054",
-                "description": "Classic red heart collectible for someone special."
-            },
-            {
-                "id": "gift_rocket",
-                "name": "Space Rocket",
-                "emoji": "🚀",
-                "stars_value": 100,
-                "price_usd": 2.29,
-                "price_stars": 100,
-                "badge": "Official 100 ⭐",
-                "glow_color": "#7b2cbf",
-                "description": "To the moon! Cosmic rocket gift for tech and crypto enthusiasts."
-            },
-            {
-                "id": "gift_rose",
-                "name": "Velvet Rose",
-                "emoji": "🌹",
-                "stars_value": 100,
-                "price_usd": 2.29,
-                "price_stars": 100,
-                "badge": "Official 100 ⭐",
-                "glow_color": "#d90429",
-                "description": "Silky crimson blooming rose for romantic and elegant occasions."
-            },
-            {
-                "id": "gift_trophy",
-                "name": "Golden Trophy",
-                "emoji": "🏆",
-                "stars_value": 100,
-                "price_usd": 2.29,
-                "price_stars": 100,
-                "badge": "Official 100 ⭐",
-                "glow_color": "#ffb703",
-                "description": "Polished gold trophy cup for winners, milestones and achievements."
-            },
-            {
-                "id": "gift_kiss",
-                "name": "Heart Box",
-                "emoji": "💝",
-                "stars_value": 150,
-                "price_usd": 3.49,
-                "price_stars": 150,
-                "badge": "Official 150 ⭐",
-                "glow_color": "#ff4d6d",
-                "description": "Ribbon-wrapped heart gift box filled with affection."
+                "description": "Telegram Heart Collectible Profile Gift."
             },
             {
                 "id": "gift_bear",
                 "name": "Plush Bear",
                 "emoji": "🧸",
-                "stars_value": 250,
-                "price_usd": 5.79,
-                "price_stars": 250,
-                "badge": "Official 250 ⭐",
+                "stars_value": 15,
+                "price_usd": 0.35,
+                "price_stars": 15,
+                "badge": "15 ⭐",
                 "glow_color": "#fb8500",
-                "description": "Adorable plush teddy bear wearing an embroidered bow."
+                "description": "Adorable Plush Bear Collectible Gift."
             },
             {
-                "id": "gift_wand",
-                "name": "Magic Wand",
-                "emoji": "🪄",
-                "stars_value": 350,
-                "price_usd": 7.99,
-                "price_stars": 350,
-                "badge": "Official 350 ⭐",
+                "id": "gift_star",
+                "name": "Golden Star",
+                "emoji": "⭐",
+                "stars_value": 15,
+                "price_usd": 0.35,
+                "price_stars": 15,
+                "badge": "15 ⭐",
+                "glow_color": "#ffbe0b",
+                "description": "Shining Golden Star Profile Collectible."
+            },
+            {
+                "id": "gift_box",
+                "name": "Gift Box",
+                "emoji": "🎁",
+                "stars_value": 25,
+                "price_usd": 0.59,
+                "price_stars": 25,
+                "badge": "25 ⭐",
+                "glow_color": "#ff4d6d",
+                "description": "Festive Wrapped Gift Box."
+            },
+            {
+                "id": "gift_rose",
+                "name": "Rose",
+                "emoji": "🌹",
+                "stars_value": 25,
+                "price_usd": 0.59,
+                "price_stars": 25,
+                "badge": "25 ⭐",
+                "glow_color": "#d90429",
+                "description": "Silky Crimson Blooming Rose."
+            },
+            {
+                "id": "gift_cake",
+                "name": "Birthday Cake",
+                "emoji": "🎂",
+                "stars_value": 50,
+                "price_usd": 1.19,
+                "price_stars": 50,
+                "badge": "50 ⭐",
+                "glow_color": "#ff758f",
+                "description": "Celebratory Birthday Cake with Candles."
+            },
+            {
+                "id": "gift_bouquet",
+                "name": "Bouquet",
+                "emoji": "💐",
+                "stars_value": 50,
+                "price_usd": 1.19,
+                "price_stars": 50,
+                "badge": "50 ⭐",
                 "glow_color": "#a29bfe",
-                "description": "Enchanted glowing wand sparkling with magical stardust."
+                "description": "Vibrant Bouquet of Fresh Flowers."
+            },
+            {
+                "id": "gift_rocket",
+                "name": "Rocket",
+                "emoji": "🚀",
+                "stars_value": 50,
+                "price_usd": 1.19,
+                "price_stars": 50,
+                "badge": "50 ⭐",
+                "glow_color": "#7b2cbf",
+                "description": "Cosmic Space Rocket Profile Gift."
             },
             {
                 "id": "gift_champagne",
-                "name": "Sparkling Champagne",
+                "name": "Champagne",
                 "emoji": "🍾",
-                "stars_value": 500,
-                "price_usd": 11.49,
-                "price_stars": 500,
-                "badge": "Official 500 ⭐",
+                "stars_value": 50,
+                "price_usd": 1.19,
+                "price_stars": 50,
+                "badge": "50 ⭐",
                 "glow_color": "#ffd166",
-                "description": "Luxury effervescent champagne bottle popped for big victories."
+                "description": "Sparkling Popped Champagne for Celebrations."
+            },
+            {
+                "id": "gift_fire",
+                "name": "Fire Trophy",
+                "emoji": "🔥",
+                "stars_value": 75,
+                "price_usd": 1.75,
+                "price_stars": 75,
+                "badge": "75 ⭐",
+                "glow_color": "#ff5400",
+                "description": "Blazing Fire Trophy Collectible Gift."
+            },
+            {
+                "id": "gift_crystal",
+                "name": "Magic Crystal",
+                "emoji": "🔮",
+                "stars_value": 75,
+                "price_usd": 1.75,
+                "price_stars": 75,
+                "badge": "75 ⭐",
+                "glow_color": "#9d4edd",
+                "description": "Mystical Radiant Crystal Ball Gift."
+            },
+            {
+                "id": "gift_cup",
+                "name": "Champions Cup",
+                "emoji": "🏆",
+                "stars_value": 100,
+                "price_usd": 2.29,
+                "price_stars": 100,
+                "badge": "100 ⭐",
+                "glow_color": "#ffb703",
+                "description": "Golden Champions Trophy Cup."
+            },
+            {
+                "id": "gift_ring",
+                "name": "Diamond Ring",
+                "emoji": "💍",
+                "stars_value": 100,
+                "price_usd": 2.29,
+                "price_stars": 100,
+                "badge": "100 ⭐",
+                "glow_color": "#48cae4",
+                "description": "Precious Sparkling Diamond Ring."
             },
             {
                 "id": "gift_diamond",
-                "name": "Royal Diamond",
+                "name": "Diamond",
                 "emoji": "💎",
-                "stars_value": 1000,
-                "price_usd": 22.99,
-                "price_stars": 1000,
-                "badge": "Official 1000 ⭐",
+                "stars_value": 100,
+                "price_usd": 2.29,
+                "price_stars": 100,
+                "badge": "100 ⭐",
                 "glow_color": "#00b4d8",
-                "description": "Brilliant multi-faceted luxury diamond with prismatic reflections."
-            },
-            {
-                "id": "gift_crown",
-                "name": "Imperial Crown",
-                "emoji": "👑",
-                "stars_value": 2500,
-                "price_usd": 54.99,
-                "price_stars": 2500,
-                "badge": "Official 2500 ⭐",
-                "glow_color": "#9d4edd",
-                "description": "The ultimate VIP status symbol on Telegram profiles."
+                "description": "Brilliant Radiant Luxury Diamond Gift."
             }
         ]
     }

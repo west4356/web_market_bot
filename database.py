@@ -86,8 +86,32 @@ def init_db():
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        # Settings table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS settings (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )
+        """)
         
         conn.commit()
+
+def get_setting(key: str, default=None):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT value FROM settings WHERE key = ?", (key,))
+        row = cursor.fetchone()
+        return row["value"] if row else default
+
+def set_setting(key: str, value: str):
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO settings (key, value) VALUES (?, ?)
+            ON CONFLICT(key) DO UPDATE SET value = excluded.value
+        """, (key, str(value)))
+        conn.commit()
+
 
 def upsert_user(user_id, username=None, first_name=None, last_name=None, is_admin=0, referrer_id=None):
     with get_db() as conn:
@@ -115,7 +139,7 @@ def upsert_user(user_id, username=None, first_name=None, last_name=None, is_admi
 
             cursor.execute("""
                 INSERT INTO users (id, username, first_name, last_name, is_admin, referrer_id, balance_stars)
-                VALUES (?, ?, ?, ?, ?, ?, 5000)
+                VALUES (?, ?, ?, ?, ?, ?, 0)
             """, (user_id, username, first_name, last_name, is_admin, valid_ref))
 
             # If valid referrer, register referral
@@ -170,7 +194,7 @@ def deduct_balance(user_id, amount_stars, tx_type="purchase", description="Order
         return True
 
 def reward_referrer_commission(buyer_id, order_stars, commission_percent=5):
-    """Gives commission to the buyer's referrer (5% of stars spent)."""
+    # Gives commission to the buyers referrer (5% of stars spent)
     with get_db() as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT referrer_id FROM users WHERE id = ?", (buyer_id,))
