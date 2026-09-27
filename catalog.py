@@ -156,36 +156,25 @@ CATALOG = {
             },
             {
                 "id": "gift_bear",
-                "name": "Plush Bear",
+                "name": "Bear",
                 "emoji": "🧸",
                 "stars_value": 15,
                 "price_usd": 0.35,
                 "price_stars": 15,
                 "badge": "15 ⭐",
                 "glow_color": "#fb8500",
-                "description": "Adorable Plush Bear Collectible Gift."
-            },
-            {
-                "id": "gift_star",
-                "name": "Golden Star",
-                "emoji": "⭐",
-                "stars_value": 15,
-                "price_usd": 0.35,
-                "price_stars": 15,
-                "badge": "15 ⭐",
-                "glow_color": "#ffbe0b",
-                "description": "Shining Golden Star Profile Collectible."
+                "description": "Adorable Bear Collectible Gift."
             },
             {
                 "id": "gift_box",
-                "name": "Gift Box",
+                "name": "Gift",
                 "emoji": "🎁",
                 "stars_value": 25,
                 "price_usd": 0.59,
                 "price_stars": 25,
                 "badge": "25 ⭐",
                 "glow_color": "#ff4d6d",
-                "description": "Festive Wrapped Gift Box."
+                "description": "Festive Wrapped Gift."
             },
             {
                 "id": "gift_rose",
@@ -211,25 +200,25 @@ CATALOG = {
             },
             {
                 "id": "gift_bouquet",
-                "name": "Bouquet",
+                "name": "A Bouquet of Flowers",
                 "emoji": "💐",
                 "stars_value": 50,
                 "price_usd": 1.19,
                 "price_stars": 50,
                 "badge": "50 ⭐",
                 "glow_color": "#a29bfe",
-                "description": "Vibrant Bouquet of Fresh Flowers."
+                "description": "Vibrant Fresh Bouquet of Flowers."
             },
             {
                 "id": "gift_rocket",
-                "name": "Rocket",
+                "name": "A Rocket",
                 "emoji": "🚀",
                 "stars_value": 50,
                 "price_usd": 1.19,
                 "price_stars": 50,
                 "badge": "50 ⭐",
                 "glow_color": "#7b2cbf",
-                "description": "Cosmic Space Rocket Profile Gift."
+                "description": "Cosmic Space Rocket Boost Gift."
             },
             {
                 "id": "gift_champagne",
@@ -241,28 +230,6 @@ CATALOG = {
                 "badge": "50 ⭐",
                 "glow_color": "#ffd166",
                 "description": "Sparkling Popped Champagne for Celebrations."
-            },
-            {
-                "id": "gift_fire",
-                "name": "Fire Trophy",
-                "emoji": "🔥",
-                "stars_value": 75,
-                "price_usd": 1.75,
-                "price_stars": 75,
-                "badge": "75 ⭐",
-                "glow_color": "#ff5400",
-                "description": "Blazing Fire Trophy Collectible Gift."
-            },
-            {
-                "id": "gift_crystal",
-                "name": "Magic Crystal",
-                "emoji": "🔮",
-                "stars_value": 75,
-                "price_usd": 1.75,
-                "price_stars": 75,
-                "badge": "75 ⭐",
-                "glow_color": "#9d4edd",
-                "description": "Mystical Radiant Crystal Ball Gift."
             },
             {
                 "id": "gift_cup",
@@ -277,7 +244,7 @@ CATALOG = {
             },
             {
                 "id": "gift_ring",
-                "name": "Diamond Ring",
+                "name": "A Ring",
                 "emoji": "💍",
                 "stars_value": 100,
                 "price_usd": 2.29,
@@ -288,14 +255,14 @@ CATALOG = {
             },
             {
                 "id": "gift_diamond",
-                "name": "Diamond",
+                "name": "A Diamond",
                 "emoji": "💎",
                 "stars_value": 100,
                 "price_usd": 2.29,
                 "price_stars": 100,
                 "badge": "100 ⭐",
                 "glow_color": "#00b4d8",
-                "description": "Brilliant Radiant Luxury Diamond Gift."
+                "description": "Brilliant Radiant Luxury Diamond."
             }
         ]
     }

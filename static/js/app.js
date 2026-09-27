@@ -45,19 +45,16 @@ const DEFAULT_CATALOG = {
     icon: "🎁",
     packages: [
       { id: "gift_heart", name: "Heart", emoji: "❤️", stars_value: 15, price_usd: 0.35, price_stars: 15, badge: "15 ⭐", glow_color: "#ff0054", description: "Telegram Heart Profile Gift." },
-      { id: "gift_bear", name: "Plush Bear", emoji: "🧸", stars_value: 15, price_usd: 0.35, price_stars: 15, badge: "15 ⭐", glow_color: "#fb8500", description: "Adorable Plush Bear Collectible." },
-      { id: "gift_star", name: "Golden Star", emoji: "⭐", stars_value: 15, price_usd: 0.35, price_stars: 15, badge: "15 ⭐", glow_color: "#ffbe0b", description: "Golden Star Profile Collectible." },
-      { id: "gift_box", name: "Gift Box", emoji: "🎁", stars_value: 25, price_usd: 0.59, price_stars: 25, badge: "25 ⭐", glow_color: "#ff4d6d", description: "Festive Wrapped Gift Box." },
+      { id: "gift_bear", name: "Bear", emoji: "🧸", stars_value: 15, price_usd: 0.35, price_stars: 15, badge: "15 ⭐", glow_color: "#fb8500", description: "Adorable Bear Collectible Gift." },
+      { id: "gift_box", name: "Gift", emoji: "🎁", stars_value: 25, price_usd: 0.59, price_stars: 25, badge: "25 ⭐", glow_color: "#ff4d6d", description: "Festive Wrapped Gift." },
       { id: "gift_rose", name: "Rose", emoji: "🌹", stars_value: 25, price_usd: 0.59, price_stars: 25, badge: "25 ⭐", glow_color: "#d90429", description: "Silky Crimson Blooming Rose." },
       { id: "gift_cake", name: "Birthday Cake", emoji: "🎂", stars_value: 50, price_usd: 1.19, price_stars: 50, badge: "50 ⭐", glow_color: "#ff758f", description: "Celebratory Birthday Cake." },
-      { id: "gift_bouquet", name: "Bouquet", emoji: "💐", stars_value: 50, price_usd: 1.19, price_stars: 50, badge: "50 ⭐", glow_color: "#a29bfe", description: "Fresh Flower Bouquet." },
-      { id: "gift_rocket", name: "Rocket", emoji: "🚀", stars_value: 50, price_usd: 1.19, price_stars: 50, badge: "50 ⭐", glow_color: "#7b2cbf", description: "Cosmic Rocket Profile Gift." },
-      { id: "gift_champagne", name: "Champagne", emoji: "🍾", stars_value: 50, price_usd: 1.19, price_stars: 50, badge: "50 ⭐", glow_color: "#ffd166", description: "Popped Champagne for Celebrations." },
-      { id: "gift_fire", name: "Fire Trophy", emoji: "🔥", stars_value: 75, price_usd: 1.75, price_stars: 75, badge: "75 ⭐", glow_color: "#ff5400", description: "Blazing Fire Collectible Gift." },
-      { id: "gift_crystal", name: "Magic Crystal", emoji: "🔮", stars_value: 75, price_usd: 1.75, price_stars: 75, badge: "75 ⭐", glow_color: "#9d4edd", description: "Mystical Radiant Crystal Ball." },
+      { id: "gift_bouquet", name: "A Bouquet of Flowers", emoji: "💐", stars_value: 50, price_usd: 1.19, price_stars: 50, badge: "50 ⭐", glow_color: "#a29bfe", description: "Fresh Bouquet of Flowers." },
+      { id: "gift_rocket", name: "A Rocket", emoji: "🚀", stars_value: 50, price_usd: 1.19, price_stars: 50, badge: "50 ⭐", glow_color: "#7b2cbf", description: "Cosmic Space Rocket Boost Gift." },
+      { id: "gift_champagne", name: "Champagne", emoji: "🍾", stars_value: 50, price_usd: 1.19, price_stars: 50, badge: "50 ⭐", glow_color: "#ffd166", description: "Sparkling Popped Champagne for Celebrations." },
       { id: "gift_cup", name: "Champions Cup", emoji: "🏆", stars_value: 100, price_usd: 2.29, price_stars: 100, badge: "100 ⭐", glow_color: "#ffb703", description: "Golden Champions Trophy Cup." },
-      { id: "gift_ring", name: "Diamond Ring", emoji: "💍", stars_value: 100, price_usd: 2.29, price_stars: 100, badge: "100 ⭐", glow_color: "#48cae4", description: "Precious Sparkling Diamond Ring." },
-      { id: "gift_diamond", name: "Diamond", emoji: "💎", stars_value: 100, price_usd: 2.29, price_stars: 100, badge: "100 ⭐", glow_color: "#00b4d8", description: "Brilliant Luxury Diamond Gift." }
+      { id: "gift_ring", name: "A Ring", emoji: "💍", stars_value: 100, price_usd: 2.29, price_stars: 100, badge: "100 ⭐", glow_color: "#48cae4", description: "Precious Sparkling Diamond Ring." },
+      { id: "gift_diamond", name: "A Diamond", emoji: "💎", stars_value: 100, price_usd: 2.29, price_stars: 100, badge: "100 ⭐", glow_color: "#00b4d8", description: "Brilliant Radiant Luxury Diamond." }
     ]
   },
   topup_packages: [

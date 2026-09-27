@@ -336,29 +336,29 @@ async def gifts_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     buttons = [
         [
             InlineKeyboardButton("❤️ Heart (15 ⭐)", callback_data="pay_gift_heart"),
-            InlineKeyboardButton("🧸 Plush Bear (15 ⭐)", callback_data="pay_gift_bear")
+            InlineKeyboardButton("🧸 Bear (15 ⭐)", callback_data="pay_gift_bear")
         ],
         [
-            InlineKeyboardButton("⭐ Golden Star (15 ⭐)", callback_data="pay_gift_star"),
-            InlineKeyboardButton("🎁 Gift Box (25 ⭐)", callback_data="pay_gift_box")
+            InlineKeyboardButton("🎁 Gift (25 ⭐)", callback_data="pay_gift_box"),
+            InlineKeyboardButton("🌹 Rose (25 ⭐)", callback_data="pay_gift_rose")
         ],
         [
-            InlineKeyboardButton("🌹 Rose (25 ⭐)", callback_data="pay_gift_rose"),
-            InlineKeyboardButton("🎂 Birthday Cake (50 ⭐)", callback_data="pay_gift_cake")
+            InlineKeyboardButton("🎂 Birthday Cake (50 ⭐)", callback_data="pay_gift_cake"),
+            InlineKeyboardButton("💐 Bouquet of Flowers (50 ⭐)", callback_data="pay_gift_bouquet")
         ],
         [
-            InlineKeyboardButton("🚀 Rocket (50 ⭐)", callback_data="pay_gift_rocket"),
+            InlineKeyboardButton("🚀 A Rocket (50 ⭐)", callback_data="pay_gift_rocket"),
             InlineKeyboardButton("🍾 Champagne (50 ⭐)", callback_data="pay_gift_champagne")
         ],
         [
-            InlineKeyboardButton("🔥 Fire Trophy (75 ⭐)", callback_data="pay_gift_fire"),
-            InlineKeyboardButton("🏆 Champions Cup (100 ⭐)", callback_data="pay_gift_cup")
+            InlineKeyboardButton("🏆 Champions Cup (100 ⭐)", callback_data="pay_gift_cup"),
+            InlineKeyboardButton("💍 A Ring (100 ⭐)", callback_data="pay_gift_ring")
         ],
         [
-            InlineKeyboardButton("💎 Diamond (100 ⭐)", callback_data="pay_gift_diamond")
+            InlineKeyboardButton("💎 A Diamond (100 ⭐)", callback_data="pay_gift_diamond")
         ],
         [
-            InlineKeyboardButton("🛒 Open Web App for More Gifts", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))
+            InlineKeyboardButton("🛒 Open Web App for Gifts", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))
         ]
     ]
     await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="HTML")
