@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 
 # Telegram Bot Token
-BOT_TOKEN = os.getenv("BOT_TOKEN", "8829323588:AAEm3sgZK47awtnMNoUexvwdbcDmpeWAMPk")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8829323588:AAGGNeGN0Ve87XMrUnQAPtoYSn97LTDBTdM")
 
 # Admin IDs (Telegram User IDs who receive order alerts and can manage orders)
 ADMIN_IDS = [
