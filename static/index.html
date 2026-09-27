@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Telegram Web App Market</title>
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="user-profile">
+        <div class="user-avatar" id="userAvatar">⭐</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Telegram User</div>
+          <div class="user-sub" id="userHandle">@market_client</div>
+        </div>
+      </div>
+      
+      <div class="header-right">
+        <!-- Balance Widget Pill -->
+        <div class="balance-pill" id="headerBalancePill">
+          <span class="pill-star">⭐</span>
+          <span class="pill-amount" id="headerBalanceAmount">0</span>
+          <button class="pill-plus-btn" id="openTopupBtn" title="Top Up Stars">+</button>
+        </div>
+
+        <!-- Language Switcher -->
+        <select id="langSelect" class="lang-select" aria-label="Language">
+          <option value="en">🇬🇧 EN</option>
+          <option value="ru">🇷🇺 RU</option>
+          <option value="uz">🇺🇿 UZ</option>
+        </select>
+        
+        <button id="adminToggleBtn" class="icon-btn" title="Admin View" style="display:none;">👑</button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="reactions">
+        <span class="tab-icon">⭐</span>
+        <span class="tab-label" data-i18n="tab_reactions">Reactions</span>
+      </button>
+      <button class="nav-tab" data-tab="premium">
+        <span class="tab-icon">💎</span>
+        <span class="tab-label" data-i18n="tab_premium">Premium</span>
+      </button>
+      <button class="nav-tab" data-tab="gifts">
+        <span class="tab-icon">🎁</span>
+        <span class="tab-label" data-i18n="tab_gifts">3D Gifts</span>
+      </button>
+      <button class="nav-tab" data-tab="referrals">
+        <span class="tab-icon">👥</span>
+        <span class="tab-label" data-i18n="tab_referrals">Referrals</span>
+      </button>
+      <button class="nav-tab" data-tab="orders">
+        <span class="tab-icon">📦</span>
+        <span class="tab-label" data-i18n="tab_orders">Orders</span>
+        <span class="orders-badge" id="ordersBadge" style="display:none;">0</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- ================= TAB 1: PAID REACTIONS (STARS) ================= -->
+      <section id="tab-reactions" class="tab-content active">
+        <!-- Hero Card -->
+        <div class="hero-card reactions-hero">
+          <div class="hero-badge">⚡ Instant Algorithm Boost</div>
+          <h2>Telegram Paid Reactions</h2>
+          <p>Boost your channel post engagement and monetization with Telegram Stars paid reactions.</p>
+        </div>
+
+        <!-- Target Link Input -->
+        <div class="input-card">
+          <label for="reactTarget" class="input-label">
+            <span data-i18n="label_post_link">Telegram Post / Channel Link</span>
+            <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔗</span>
+            <input type="text" id="reactTarget" placeholder="https://t.me/channel_name/123" />
+            <button class="paste-btn" id="reactPasteBtn" type="button">Paste</button>
+          </div>
+          <span class="input-hint">Enter public channel post link. The post must have paid reactions enabled.</span>
+        </div>
+
+        <!-- Modern Emoji / Sticker Picker -->
+        <div class="section-block">
+          <div class="section-title">
+            <span data-i18n="choose_emoji">Choose Reaction Sticker</span>
+            <span class="selected-emoji-indicator" id="selectedEmojiPreview">⭐ Star</span>
+          </div>
+          <div class="emoji-grid modern-sticker-grid" id="emojiGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Package Selection -->
+        <div class="section-block">
+          <div class="section-title">
+            <span data-i18n="select_package">Select Stars Package</span>
+          </div>
+          <div class="packages-grid" id="reactionsPackagesGrid">
+            <!-- Injected by app.js -->
+          </div>
+        </div>
+
+        <!-- Custom Stars Amount Option -->
+        <div class="custom-stars-card">
+          <div class="custom-header">
+            <span>✨ Or Enter Custom Stars:</span>
+            <span class="custom-price-tag" id="customPriceTag">$0.00</span>
+          </div>
+          <div class="custom-input-row">
+            <input type="number" id="customStarsInput" min="50" max="50000" step="50" placeholder="e.g. 750" />
+            <span class="stars-unit">Stars ⭐</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="action-container">
+          <button class="primary-btn glow-btn" id="btnOrderReactions">
+            <span>Order Paid Reactions</span>
+            <span class="btn-price" id="reactBtnPrice">$0.99</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: TELEGRAM PREMIUM ================= -->
+      <section id="tab-premium" class="tab-content">
+        <!-- Banner Card -->
+        <div class="hero-card premium-hero">
+          <div class="hero-badge">💎 Save up to 45%</div>
+          <h2>Telegram Premium Subscriptions</h2>
+          <p>Gift Telegram Premium to any account instantly without requiring a bank card.</p>
+        </div>
+
+        <!-- Target Username Input -->
+        <div class="input-card">
+          <label for="premTarget" class="input-label">
+            <span data-i18n="label_recipient">Recipient Telegram Username</span>
+            <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">@</span>
+            <input type="text" id="premTarget" placeholder="username" />
+            <button class="myself-btn" id="premSelfBtn" type="button">For Myself</button>
+          </div>
+          <span class="input-hint">Subscription will be delivered directly as an official Telegram gift.</span>
+        </div>
+
+        <!-- Duration Packages -->
+        <div class="section-block">
+          <div class="section-title">
+            <span data-i18n="select_duration">Select Duration</span>
+          </div>
+          <div class="premium-packages" id="premiumPackagesGrid">
+            <!-- Injected by app.js -->
+          </div>
+        </div>
+
+        <!-- Premium Perks Showcase -->
+        <div class="section-block perks-section">
+          <div class="section-title">
+            <span>👑 Premium Privileges</span>
+          </div>
+          <div class="perks-grid" id="perksGrid">
+            <!-- Injected by app.js -->
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="action-container">
+          <button class="primary-btn glow-btn" id="btnOrderPremium">
+            <span>Gift Telegram Premium</span>
+            <span class="btn-price" id="premBtnPrice">$16.99</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: MODERN 3D GIFTS ================= -->
+      <section id="tab-gifts" class="tab-content">
+        <!-- Banner Card -->
+        <div class="hero-card gifts-hero">
+          <div class="hero-badge">🎁 3D Collectible Stickers</div>
+          <h2>Telegram Profile Gifts</h2>
+          <p>Send modern 3D collectible gifts. Recipients can showcase them on their profile or convert them into Stars!</p>
+        </div>
+
+        <!-- Recipient Username -->
+        <div class="input-card">
+          <label for="giftTarget" class="input-label">
+            <span data-i18n="label_gift_recipient">Recipient Username</span>
+            <span class="required">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">@</span>
+            <input type="text" id="giftTarget" placeholder="recipient_username" />
+            <button class="myself-btn" id="giftSelfBtn" type="button">For Myself</button>
+          </div>
+        </div>
+
+        <!-- Gift Dedication Note -->
+        <div class="input-card">
+          <label for="giftMessage" class="input-label">
+            <span>Greeting Message (Optional)</span>
+            <span class="char-count" id="giftCharCount">0/128</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="giftMessage" maxlength="128" placeholder="Happy Birthday! / Best wishes..." />
+          </div>
+        </div>
+
+        <!-- Anonymous Gift Toggle -->
+        <div class="toggle-card">
+          <div class="toggle-info">
+            <div class="toggle-title">🕵️ Send Anonymously</div>
+            <div class="toggle-desc">Hide your identity so only the recipient knows who sent it.</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="giftAnonymous" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <!-- Gifts Showcase Grid -->
+        <div class="section-block">
+          <div class="section-title">
+            <span data-i18n="choose_gift">Choose a 3D Collectible Gift</span>
+          </div>
+          <div class="gifts-grid modern-gifts-grid" id="giftsGrid">
+            <!-- Injected by app.js -->
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="action-container">
+          <button class="primary-btn glow-btn" id="btnOrderGift">
+            <span>Send Telegram Gift</span>
+            <span class="btn-price" id="giftBtnPrice">$1.49</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: REFERRAL SYSTEM ================= -->
+      <section id="tab-referrals" class="tab-content">
+        <!-- Hero Card -->
+        <div class="hero-card ref-hero">
+          <div class="hero-badge">👥 Earn 5% Passive Stars</div>
+          <h2>Invite Friends & Earn Stars</h2>
+          <p>Share your link with friends. Whenever they purchase Paid Reactions, Premium or Gifts, you receive <b>5% of their order value in Stars ⭐</b> directly into your balance!</p>
+        </div>
+
+        <!-- Referral Link Box -->
+        <div class="ref-link-card">
+          <div class="ref-link-label">Your Unique Referral Link:</div>
+          <div class="ref-link-row">
+            <input type="text" id="refLinkInput" readonly value="https://t.me/vst_starsmarket_bot?start=ref_..." />
+            <button class="copy-btn" id="copyRefBtn">Copy</button>
+          </div>
+          <button class="primary-btn glow-btn share-tg-btn" id="shareRefTgBtn">
+            <span>🚀 Share in Telegram</span>
+          </button>
+        </div>
+
+        <!-- Referral Stats Grid -->
+        <div class="ref-stats-grid">
+          <div class="stat-box">
+            <div class="stat-num" id="refCount">0</div>
+            <div class="stat-title">Friends Invited</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="refEarnings">0 ⭐</div>
+            <div class="stat-title">Total Earned</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num highlight">5%</div>
+            <div class="stat-title">Commission</div>
+          </div>
+        </div>
+
+        <!-- How It Works List -->
+        <div class="section-block">
+          <div class="section-title"><span>💡 How the Referral System Works</span></div>
+          <div class="how-it-works-list">
+            <div class="step-card">
+              <span class="step-badge">1</span>
+              <div>
+                <strong>Share Your Link</strong>
+                <p>Send your personal link to friends, channels, or group chats.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <span class="step-badge">2</span>
+              <div>
+                <strong>Friends Join & Order</strong>
+                <p>They buy Paid Reactions, Telegram Premium, or Official Gifts.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <span class="step-badge">3</span>
+              <div>
+                <strong>Get 5% Stars Credited</strong>
+                <p>Commissions are credited automatically to your in-app Stars balance.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: MY ORDERS ================= -->
+      <section id="tab-orders" class="tab-content">
+        <div class="orders-header">
+          <h2>📦 Order History</h2>
+          <button class="icon-refresh-btn" id="refreshOrdersBtn" title="Refresh">🔄</button>
+        </div>
+
+        <div id="ordersList" class="orders-list">
+          <div class="empty-state">
+            <div class="empty-icon">🛒</div>
+            <h3>No Orders Yet</h3>
+            <p>Your purchased Paid Reactions, Premium, and Gifts will appear here.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ADMIN MODAL / VIEW ================= -->
+      <section id="tab-admin" class="tab-content" style="display:none;">
+        <div class="admin-panel">
+          <div class="admin-header">
+            <h2>👑 Admin Management</h2>
+            <button class="close-admin-btn" id="closeAdminBtn">✕</button>
+          </div>
+          
+          <div class="admin-stats-grid" id="adminStatsGrid">
+            <div class="stat-card">
+              <div class="stat-value" id="statOrders">0</div>
+              <div class="stat-label">Total Orders</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="statRevenue">$0.00</div>
+              <div class="stat-label">Revenue</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="statPending">0</div>
+              <div class="stat-label">Pending Queue</div>
+            </div>
+          </div>
+
+          <div class="admin-orders-section">
+            <h3>Recent Orders Queue</h3>
+            <div id="adminOrdersList" class="admin-orders-list"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= STARS BALANCE TOP-UP MODAL ================= -->
+    <div id="topupModal" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+          <h3>⭐ Top Up Stars Balance</h3>
+          <button class="modal-close-btn" id="closeTopupBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-sub">Deposit Telegram Stars directly into your in-app wallet to pay instantly for any product:</p>
+          <div class="topup-packages-grid" id="topupGrid">
+            <!-- Injected by app.js -->
+          </div>
+          <div class="custom-topup-row">
+            <span>Or Custom Amount:</span>
+            <input type="number" id="customTopupInput" min="10" max="10000" step="10" placeholder="e.g. 300" />
+            <span class="stars-unit">Stars ⭐</span>
+          </div>
+
+          <!-- Quick Test Demo Stars Button -->
+          <div class="demo-claim-card" style="margin-top:14px; background:rgba(0,242,96,0.08); border:1px dashed #00f260; border-radius:12px; padding:12px; text-align:center;">
+            <div style="font-size:12px; font-weight:700; color:#00f260; margin-bottom:6px;">🧪 Instant Test Mode</div>
+            <button class="primary-btn glow-btn" id="btnClaimDemoStars" type="button" style="justify-content:center; padding:10px 14px; font-size:13px; background:linear-gradient(135deg, #00f260 0%, #0575e6 100%);">
+              <span>🎁 Claim +5,000 Demo Stars</span>
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="primary-btn glow-btn modal-submit-btn" id="btnSubmitTopup">
+            <span id="btnTopupText">Top Up with Telegram Stars</span>
+            <span class="btn-spinner" id="btnTopupSpinner" style="display:none;">⏳</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= CHECKOUT MODAL ================= -->
+    <div id="checkoutModal" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        
+        <div class="modal-header">
+          <h3 id="checkoutModalTitle">Complete Order</h3>
+          <button class="modal-close-btn" id="closeCheckoutBtn">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Order Summary Card -->
+          <div class="checkout-summary-card">
+            <div class="summary-product" id="summaryProduct">100 Paid Stars Reactions</div>
+            <div class="summary-target" id="summaryTarget">Target: @durov</div>
+            <div class="summary-extra" id="summaryExtra"></div>
+            <div class="summary-divider"></div>
+            <div class="summary-total-row">
+              <span>Total to Pay:</span>
+              <span class="summary-price" id="summaryPrice">100 ⭐ / $1.89</span>
+            </div>
+          </div>
+
+          <!-- Payment Method Selection -->
+          <div class="payment-methods-block">
+            <div class="payment-title">Select Payment Method:</div>
+            
+            <div class="payment-options">
+              <!-- Option 1: In-App Stars Balance (INSTANT 1-CLICK) -->
+              <label class="payment-option selected" data-method="balance" id="optPayBalance">
+                <input type="radio" name="payment_method" value="balance" checked />
+                <div class="payment-opt-info">
+                  <div class="opt-name">
+                    <span>💰 In-App Stars Balance</span>
+                    <span class="badge-recommended">Instant 1-Click</span>
+                  </div>
+                  <div class="opt-desc" id="balanceDesc">Available balance: 0 ⭐</div>
+                </div>
+              </label>
+
+              <!-- Option 2: Native Telegram Stars Invoice -->
+              <label class="payment-option" data-method="stars">
+                <input type="radio" name="payment_method" value="stars" />
+                <div class="payment-opt-info">
+                  <div class="opt-name">
+                    <span>⭐ Telegram Stars Invoice</span>
+                  </div>
+                  <div class="opt-desc">Pay directly via Telegram Stars sheet</div>
+                </div>
+              </label>
+
+              <!-- Option 3: TON Crypto -->
+              <label class="payment-option" data-method="ton">
+                <input type="radio" name="payment_method" value="ton" />
+                <div class="payment-opt-info">
+                  <div class="opt-name">
+                    <span>💎 TON Cryptocurrency</span>
+                  </div>
+                  <div class="opt-desc">Fast payments via Tonkeeper / Telegram Wallet</div>
+                </div>
+              </label>
+
+              <!-- Option 4: USDT -->
+              <label class="payment-option" data-method="usdt">
+                <input type="radio" name="payment_method" value="usdt" />
+                <div class="payment-opt-info">
+                  <div class="opt-name">
+                    <span>💵 USDT (TRC-20 / TON)</span>
+                  </div>
+                  <div class="opt-desc">Stablecoin crypto payment</div>
+                </div>
+              </label>
+
+              <!-- Option 5: Bank Card -->
+              <label class="payment-option" data-method="card">
+                <input type="radio" name="payment_method" value="card" />
+                <div class="payment-opt-info">
+                  <div class="opt-name">
+                    <span>💳 Bank Card / Transfer</span>
+                  </div>
+                  <div class="opt-desc">Direct bank transfer with confirmation</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Dynamic Payment Details Box (for TON/USDT/Card) -->
+          <div id="cryptoPaymentBox" class="crypto-box" style="display:none;">
+            <div class="crypto-qr-container">
+              <img id="cryptoQrImg" src="" alt="Payment QR" />
+            </div>
+            <div class="crypto-addr-wrapper">
+              <span class="crypto-label" id="cryptoNetLabel">TON Wallet Address:</span>
+              <div class="crypto-addr-row">
+                <input type="text" id="cryptoAddressInput" readonly value="" />
+                <button class="copy-btn" id="copyAddressBtn">Copy</button>
+              </div>
+            </div>
+            <div class="tx-input-wrapper">
+              <label for="txHashInput">Transaction Hash / Sender Info (Optional):</label>
+              <input type="text" id="txHashInput" placeholder="Paste Tx Hash or Screenshot ref" />
+            </div>
+          </div>
+
+          <div id="cardPaymentBox" class="card-box" style="display:none;">
+            <div class="card-info-row">
+              <span class="card-label">Card Number:</span>
+              <strong id="cardNumberText">8600 0000 0000 0000</strong>
+              <button class="copy-btn" id="copyCardBtn">Copy</button>
+            </div>
+            <div class="card-bank-info" id="cardBankInfo">Visa / MasterCard / National</div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="primary-btn glow-btn modal-submit-btn" id="btnSubmitOrder">
+            <span id="btnSubmitText">Proceed to Pay</span>
+            <span class="btn-spinner" id="btnSpinner" style="display:none;">⏳</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

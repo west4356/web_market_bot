@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+env/
+
+# Local SQLite Database
+*.db
+market.db
+
+# Large binaries
+cloudflared.exe
+
+# OS generated
+.DS_Store
+Thumbs.db
