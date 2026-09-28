@@ -96,20 +96,6 @@ async def get_user_profile(user_id: int):
         "referral_link": f"https://t.me/vst_starsmarket_bot?start=ref_{user_id}"
     }
 
-@app.post("/api/user/{user_id}/claim-demo")
-async def claim_demo_stars(user_id: int):
-    updated = database.add_balance(
-        user_id=user_id,
-        amount_stars=5000,
-        tx_type="demo_claim",
-        description="Demo test balance (+5000 ⭐)"
-    )
-    return {
-        "ok": True,
-        "balance_stars": updated.get("balance_stars", 5000),
-        "message": "5,000 Demo Stars added successfully!"
-    }
-
 @app.post("/api/balance/topup")
 async def create_topup_invoice(req: TopUpRequest):
     if req.stars_count < 10:
@@ -154,6 +140,9 @@ async def api_create_order(req: CreateOrderRequest):
             if not success:
                 raise HTTPException(status_code=400, detail="Insufficient Stars balance! Please top up your balance.")
             order_status = "paid"
+
+        # Ensure user exists in database
+        database.upsert_user(user_id=req.user_id, username=req.user_name)
 
         # Save order to DB
         order = database.create_order(

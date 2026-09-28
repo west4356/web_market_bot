@@ -47,6 +47,19 @@ async def set_menu_button(web_app_url: str):
     except Exception as e:
         logger.warning("Failed to set chat menu button: %s", e)
 
+def get_webapp_url(user_id=None, username=None) -> str:
+    """Returns the HTTPS WebApp URL with embedded user parameters for seamless session recovery."""
+    base = config.WEBAPP_URL or ""
+    if not base or not base.startswith("http"):
+        return "https://telegram.org"
+    if user_id:
+        param = f"user_id={user_id}"
+        if username:
+            param += f"&username={username}"
+        sep = "&" if "?" in base else "?"
+        return f"{base}{sep}{param}"
+    return base
+
 async def create_stars_invoice(title: str, description: str, payload: str, stars_amount: int) -> str:
     """Creates a native Telegram Stars (XTR) invoice link."""
     bot = get_bot_instance()
@@ -234,7 +247,7 @@ async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             logger.warning(f"Failed to notify referrer {referrer_id}: {e}")
     
-    web_url = config.WEBAPP_URL or "https://telegram.org"
+    web_url = get_webapp_url(user.id, user.username)
     safe_name = html.escape(user.first_name or "Friend")
     user_balance = u_data.get("balance_stars", 0)
     
@@ -282,6 +295,7 @@ async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def stars_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Shows Stars packages starting from minimum 50 Stars (Fragment style)."""
+    user = update.effective_user
     text = (
         f"⭐ <b>Buy Telegram Stars to Account</b>\n\n"
         f"Buy Telegram Stars directly to your Telegram ID account (Fragment style).\n"
@@ -305,13 +319,14 @@ async def stars_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
             InlineKeyboardButton("⭐ 5,000 Stars ($69.99)", callback_data="pay_stars_5000")
         ],
         [
-            InlineKeyboardButton("🛒 Open Web App (Custom Stars)", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))
+            InlineKeyboardButton("🛒 Open Web App (Custom Stars)", web_app=WebAppInfo(url=get_webapp_url(user.id, user.username)))
         ]
     ]
     await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="HTML")
 
 async def premium_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Shows Telegram Premium subscriptions (3 months, 6 months, 1 year)."""
+    user = update.effective_user
     text = (
         f"💎 <b>Telegram Premium Subscriptions</b>\n\n"
         f"Unlock double limits, 4GB uploads, voice-to-text, animated emoji, custom app icons, and exclusive badges!\n\n"
@@ -322,12 +337,13 @@ async def premium_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("💎 3 Months Premium (600 ⭐ / $11.99)", callback_data="pay_prem_3m")],
         [InlineKeyboardButton("💎 6 Months Premium (850 ⭐ / $16.99)", callback_data="pay_prem_6m")],
         [InlineKeyboardButton("💎 12 Months (1 Year) Premium (1,450 ⭐ / $28.99)", callback_data="pay_prem_12m")],
-        [InlineKeyboardButton("🛒 Open in Market App", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))]
+        [InlineKeyboardButton("🛒 Open in Market App", web_app=WebAppInfo(url=get_webapp_url(user.id, user.username)))]
     ]
     await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="HTML")
 
 async def gifts_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Shows official Telegram Gifts ranging from 15 Stars to 100 Stars."""
+    user = update.effective_user
     text = (
         f"🎁 <b>Official Telegram Gifts (15 to 100 Stars)</b>\n\n"
         f"Collectible gifts displayed on your Telegram profile or convertible into Stars!\n\n"
@@ -358,29 +374,31 @@ async def gifts_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
             InlineKeyboardButton("💎 A Diamond (100 ⭐)", callback_data="pay_gift_diamond")
         ],
         [
-            InlineKeyboardButton("🛒 Open Web App for Gifts", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))
+            InlineKeyboardButton("🛒 Open Web App for Gifts", web_app=WebAppInfo(url=get_webapp_url(user.id, user.username)))
         ]
     ]
     await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="HTML")
 
 async def market_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    web_url = config.WEBAPP_URL or "https://telegram.org"
+    user = update.effective_user
+    web_url = get_webapp_url(user.id, user.username)
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("🛒 Open Market App", web_app=WebAppInfo(url=web_url))]
     ])
     await update.message.reply_text("Tap below to open the Market Web App:", reply_markup=keyboard)
 
 async def referral_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
-    user = database.get_user(user_id) or {}
+    user = update.effective_user
+    user_id = user.id
+    user_db = database.get_user(user_id) or {}
     
     bot = get_bot_instance()
     bot_info = await bot.get_me()
     bot_username = bot_info.username
     ref_link = f"https://t.me/{bot_username}?start=ref_{user_id}"
     
-    invited = user.get("referral_count", 0)
-    earnings = user.get("referral_earnings", 0)
+    invited = user_db.get("referral_count", 0)
+    earnings = user_db.get("referral_earnings", 0)
     
     text = (
         f"👥 <b>Referral & Earn System</b>\n\n"
@@ -397,15 +415,16 @@ async def referral_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     share_url = f"https://t.me/share/url?url={ref_link}&text=Join%20the%20Telegram%20Market%20for%20Stars,%20Premium%20and%20Gifts!"
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("🚀 Share with Friends", url=share_url)],
-        [InlineKeyboardButton("🛒 Open Market App", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))]
+        [InlineKeyboardButton("🛒 Open Market App", web_app=WebAppInfo(url=get_webapp_url(user.id, user.username)))]
     ])
     
     await update.message.reply_text(text, reply_markup=keyboard, parse_mode="HTML")
 
 async def balance_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
-    user = database.get_user(user_id) or {}
-    bal = user.get("balance_stars", 0)
+    user = update.effective_user
+    user_id = user.id
+    user_db = database.get_user(user_id) or {}
+    bal = user_db.get("balance_stars", 0)
     
     text = (
         f"💰 <b>Your Stars Balance</b>\n\n"
@@ -415,17 +434,18 @@ async def balance_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     keyboard = InlineKeyboardMarkup([
         [InlineKeyboardButton("⭐ Buy Stars to Account", callback_data="view_stars")],
-        [InlineKeyboardButton("🛒 Open Market", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))]
+        [InlineKeyboardButton("🛒 Open Market", web_app=WebAppInfo(url=get_webapp_url(user.id, user.username)))]
     ])
     await update.message.reply_text(text, reply_markup=keyboard, parse_mode="HTML")
 
 async def orders_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
+    user = update.effective_user
+    user_id = user.id
     orders = database.get_user_orders(user_id)
     
     if not orders:
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🛒 Explore Catalog", web_app=WebAppInfo(url=config.WEBAPP_URL or "https://telegram.org"))]
+            [InlineKeyboardButton("🛒 Explore Catalog", web_app=WebAppInfo(url=get_webapp_url(user.id, user.username)))]
         ])
         await update.message.reply_text(
             "You haven't placed any orders yet. Visit the Market to get started!",

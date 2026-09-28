@@ -198,20 +198,69 @@ function getSelfRecipient() {
   return `ID: ${state.user.id}`;
 }
 
-// Initialize Application
-document.addEventListener("DOMContentLoaded", async () => {
-  // Init Telegram SDK
+// Detect and Initialize User Session (persists across reloads/retries)
+function detectAndInitUser() {
+  // 1. Try to load from localStorage first (for continuity across refresh / retries)
+  try {
+    const saved = localStorage.getItem("market_user_session");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.id) {
+        state.user = { ...state.user, ...parsed };
+      }
+    }
+  } catch (e) {}
+
+  // 2. Try window.Telegram.WebApp.initDataUnsafe.user
   if (tg) {
     try {
       tg.ready();
       tg.expand();
       if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         state.user = { ...state.user, ...tg.initDataUnsafe.user };
+      } else if (tg.initData) {
+        const params = new URLSearchParams(tg.initData);
+        const userJson = params.get("user");
+        if (userJson) {
+          state.user = { ...state.user, ...JSON.parse(userJson) };
+        }
       }
     } catch (e) {
       console.warn("Telegram WebApp init warning:", e);
     }
   }
+
+  // 3. Try URL Hash (e.g. #tgWebAppData=...) or URL Search Params (?user_id=...)
+  try {
+    if (window.location.hash) {
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+      const tgData = hashParams.get("tgWebAppData");
+      if (tgData) {
+        const subParams = new URLSearchParams(tgData);
+        const u = subParams.get("user");
+        if (u) state.user = { ...state.user, ...JSON.parse(u) };
+      }
+    }
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("user_id")) {
+      state.user.id = parseInt(searchParams.get("user_id"), 10);
+    }
+    if (searchParams.get("username")) {
+      state.user.username = searchParams.get("username").replace(/^@/, "");
+    }
+  } catch (e) {}
+
+  // 4. Save to localStorage
+  try {
+    if (state.user && state.user.id) {
+      localStorage.setItem("market_user_session", JSON.stringify(state.user));
+    }
+  } catch (e) {}
+}
+
+// Initialize Application
+document.addEventListener("DOMContentLoaded", async () => {
+  detectAndInitUser();
 
   updateUserProfile();
   setupNavigation();
@@ -226,7 +275,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderGiftsTab();
   renderTopupPackages();
 
-  // Load backend catalog & user profile
+  // Load backend catalog & user profile & order history
   await Promise.all([
     fetchAppData(),
     fetchUserProfile()
@@ -237,7 +286,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderPremiumTab();
   renderGiftsTab();
   renderTopupPackages();
-  loadUserOrders();
+  await loadUserOrders();
 });
 
 // Update Profile & Balance in Header
@@ -376,6 +425,10 @@ async function fetchUserProfile() {
       state.referralLink = data.referral_link || `https://t.me/vst_starsmarket_bot?start=ref_${state.user.id}`;
 
       updateUserProfile();
+
+      try {
+        localStorage.setItem("market_user_session", JSON.stringify(state.user));
+      } catch (e) {}
 
       const refInput = document.getElementById("refLinkInput");
       if (refInput) refInput.value = state.referralLink;
@@ -735,29 +788,6 @@ function setupTopupModal() {
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
   });
-
-  // Claim 5000 Demo Stars button
-  const claimDemoBtn = document.getElementById("btnClaimDemoStars");
-  if (claimDemoBtn) {
-    claimDemoBtn.addEventListener("click", async () => {
-      haptic("success");
-      try {
-        const res = await fetch(`/api/user/${state.user.id}/claim-demo`, { method: "POST" });
-        const data = await res.json();
-        if (data.ok) {
-          state.user.balance_stars = data.balance_stars;
-          updateUserProfile();
-          showToast("🎉 +5,000 Demo Stars credited!");
-          closeModal();
-        }
-      } catch (e) {
-        state.user.balance_stars = (state.user.balance_stars || 0) + 5000;
-        updateUserProfile();
-        showToast("🎉 +5,000 Demo Stars credited!");
-        closeModal();
-      }
-    });
-  }
 
   // Custom Topup input
   const customInput = document.getElementById("customTopupInput");
