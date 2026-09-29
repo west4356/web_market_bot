@@ -46,6 +46,11 @@ async def root():
         raise HTTPException(status_code=404, detail="Frontend index.html not found")
     return FileResponse(str(index_file))
 
+@app.get("/health")
+@app.get("/ping")
+async def health_check():
+    return {"status": "ok", "service": "telegram_market_bot", "alive": True}
+
 # Models
 class CreateOrderRequest(BaseModel):
     user_id: int

@@ -88,6 +88,25 @@ async def main():
     uv_server = uvicorn.Server(uv_config)
     server_task = asyncio.create_task(uv_server.serve())
 
+    # 6. Keep-Alive Worker for Cloud (Render/Railway 24/7 pinger)
+    async def keep_alive_worker(url: str):
+        import aiohttp
+        await asyncio.sleep(60)
+        while True:
+            try:
+                ping_url = f"{url.rstrip('/')}/health"
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(ping_url, timeout=15) as resp:
+                        if resp.status == 200:
+                            logger.info(f"⚡ Keep-alive ping successful ({ping_url})")
+            except Exception:
+                pass
+            await asyncio.sleep(600)  # Ping every 10 minutes
+
+    keep_alive_task = None
+    if config.WEBAPP_URL and config.WEBAPP_URL.startswith("https://"):
+        keep_alive_task = asyncio.create_task(keep_alive_worker(config.WEBAPP_URL))
+
     print("\n" + "=" * 60)
     print("✨  TELEGRAM MARKET APP IS LIVE AND READY!")
     print(f"🤖  Bot Username: @vst_starsmarket_bot")
