@@ -681,13 +681,22 @@ async def callback_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
         order_uuid = data.replace("adm_done_", "")
         order = database.update_order_status(order_uuid, "completed")
         if order:
-            try:
-                database.reward_referrer_commission(
-                    buyer_id=order["user_id"],
-                    order_stars=order.get("price_stars", 0)
+            # If this was a TON balance top-up, credit user's Stars balance
+            if order.get("category") == "topup":
+                database.add_balance(
+                    user_id=order["user_id"],
+                    amount_stars=order.get("price_stars", 0),
+                    tx_type="topup_ton",
+                    description=f"TON Top-Up (+{order.get('price_stars')} ⭐)"
                 )
-            except Exception as e:
-                logger.warning("Could not reward referral commission: %s", e)
+            else:
+                try:
+                    database.reward_referrer_commission(
+                        buyer_id=order["user_id"],
+                        order_stars=order.get("price_stars", 0)
+                    )
+                except Exception as e:
+                    logger.warning("Could not reward referral commission: %s", e)
             await notify_customer_order(order, event="completed")
             await query.edit_message_text(f"✅ Order #{order_uuid} marked as COMPLETED and customer notified!")
         else:

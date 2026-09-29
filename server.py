@@ -69,6 +69,13 @@ class TopUpRequest(BaseModel):
     user_id: int
     stars_count: int
 
+class TonTopUpRequest(BaseModel):
+    user_id: int
+    user_name: Optional[str] = "Customer"
+    stars_count: int
+    ton_amount: float
+    tx_hash: Optional[str] = ""
+
 class UpdateStatusRequest(BaseModel):
     status: str
     tx_hash: Optional[str] = None
@@ -123,6 +130,46 @@ async def create_topup_invoice(req: TopUpRequest):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/balance/topup/ton")
+async def create_ton_topup_request(req: TonTopUpRequest):
+    if req.stars_count < 10:
+        raise HTTPException(status_code=400, detail="Minimum top-up is 10 Stars")
+    
+    database.upsert_user(user_id=req.user_id, username=req.user_name)
+    
+    order = database.create_order(
+        user_id=req.user_id,
+        user_name=req.user_name,
+        category="topup",
+        product_id=f"topup_ton_{req.stars_count}",
+        product_name=f"Top-Up +{req.stars_count} Stars (TON)",
+        quantity=1,
+        price_usd=round(req.stars_count * 0.019, 2),
+        price_stars=req.stars_count,
+        target_recipient=req.user_name or f"ID: {req.user_id}",
+        extra_data={
+            "ton_amount": req.ton_amount,
+            "tx_hash": req.tx_hash,
+            "wallet": config.CRYPTO_CONFIG["TON"]["address"]
+        },
+        payment_method="ton"
+    )
+    
+    if req.tx_hash:
+        database.update_order_status(order["order_uuid"], "pending", tx_hash=req.tx_hash)
+        
+    try:
+        await bot_service.notify_admins(order)
+        await bot_service.notify_customer_order(order, event="created")
+    except Exception as e:
+        print(f"Top-up notification error: {e}")
+        
+    return {
+        "ok": True,
+        "order": order,
+        "message": f"Top-up request for +{req.stars_count} Stars submitted! Once confirmed, Stars will be added to your balance."
+    }
 
 @app.post("/api/orders/create")
 async def api_create_order(req: CreateOrderRequest):

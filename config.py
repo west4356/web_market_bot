@@ -27,7 +27,7 @@ WEBAPP_URL = os.getenv("WEBAPP_URL") or os.getenv("RENDER_EXTERNAL_URL", "")
 # Crypto Wallets for Payment
 CRYPTO_CONFIG = {
     "TON": {
-        "address": "UQDC7q9w2Z0r8GvKxY9_EXAMPLE_TON_WALLET_ADDRESS",
+        "address": "UQCj79I9i-C368-MGUSm6_xbdNXsou351zQz_Ddxbx1B4Syu",
         "network": "The Open Network (TON)",
         "symbol": "TON",
         "qr_code_url": "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data="

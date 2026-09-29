@@ -104,7 +104,8 @@ const state = {
   
   // Top-Up selection
   topup: {
-    selectedStars: 50
+    selectedStars: 50,
+    method: "stars" // "stars" or "ton"
   },
   
   // Checkout
@@ -763,7 +764,45 @@ function setupInputs() {
   }
 }
 
-// ================= STARS TOP-UP MODAL =================
+// ================= STARS & TON TOP-UP MODAL =================
+function updateTopupTonView() {
+  const stars = state.topup.selectedStars || 50;
+  const tonAmount = Math.max(0.05, +(stars * 0.0185 / 5.5).toFixed(2));
+  
+  const amountEl = document.getElementById("topupTonAmountText");
+  if (amountEl) amountEl.textContent = `${tonAmount} TON (${stars} ⭐)`;
+
+  const addr = state.config?.crypto?.TON?.address || "UQCj79I9i-C368-MGUSm6_xbdNXsou351zQz_Ddxbx1B4Syu";
+  const addrInput = document.getElementById("topupTonAddressInput");
+  if (addrInput) addrInput.value = addr;
+
+  const tonUri = `ton://transfer/${addr}?amount=${Math.round(tonAmount * 1e9)}&text=TOPUP_${state.user.id}_${stars}`;
+  const tonkeeperLink = `https://app.tonkeeper.com/transfer/${addr}?amount=${Math.round(tonAmount * 1e9)}&text=TOPUP_${state.user.id}_${stars}`;
+  
+  const qrImg = document.getElementById("topupTonQrImg");
+  if (qrImg) {
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(tonUri)}`;
+  }
+
+  const tonkeeperBtn = document.getElementById("btnOpenTonkeeper");
+  if (tonkeeperBtn) {
+    tonkeeperBtn.href = tonUri;
+  }
+}
+
+function updateTopupSubmitButtonText() {
+  const btnText = document.getElementById("btnTopupText");
+  if (!btnText) return;
+  const stars = state.topup.selectedStars || 50;
+  if (state.topup.method === "ton") {
+    const tonAmount = Math.max(0.05, +(stars * 0.0185 / 5.5).toFixed(2));
+    btnText.textContent = `I Have Paid ${tonAmount} TON (+${stars} ⭐)`;
+  } else {
+    const usd = (stars * 0.0185).toFixed(2);
+    btnText.textContent = `Top Up ${stars} Stars ($${usd})`;
+  }
+}
+
 function setupTopupModal() {
   const modal = document.getElementById("topupModal");
   const openBtn = document.getElementById("openTopupBtn");
@@ -771,10 +810,16 @@ function setupTopupModal() {
   const closeBtn = document.getElementById("closeTopupBtn");
   const submitBtn = document.getElementById("btnSubmitTopup");
 
+  const tabStars = document.getElementById("tabTopupStars");
+  const tabTon = document.getElementById("tabTopupTon");
+  const tonBox = document.getElementById("topupTonDetailsBox");
+
   if (!modal) return;
 
   const openModal = () => {
     haptic("medium");
+    updateTopupTonView();
+    updateTopupSubmitButtonText();
     modal.classList.add("active");
   };
 
@@ -789,6 +834,61 @@ function setupTopupModal() {
     if (e.target === modal) closeModal();
   });
 
+  // Topup Method Toggle
+  if (tabStars) {
+    tabStars.addEventListener("click", () => {
+      haptic("light");
+      state.topup.method = "stars";
+      tabStars.classList.add("active");
+      tabStars.style.borderColor = "rgba(0,242,96,0.4)";
+      tabStars.style.background = "rgba(0,242,96,0.12)";
+      tabStars.style.color = "#fff";
+
+      if (tabTon) {
+        tabTon.classList.remove("active");
+        tabTon.style.borderColor = "rgba(255,255,255,0.15)";
+        tabTon.style.background = "rgba(255,255,255,0.05)";
+        tabTon.style.color = "#aaa";
+      }
+
+      if (tonBox) tonBox.style.display = "none";
+      updateTopupSubmitButtonText();
+    });
+  }
+
+  if (tabTon) {
+    tabTon.addEventListener("click", () => {
+      haptic("light");
+      state.topup.method = "ton";
+      tabTon.classList.add("active");
+      tabTon.style.borderColor = "#0098ea";
+      tabTon.style.background = "rgba(0,152,234,0.18)";
+      tabTon.style.color = "#fff";
+
+      if (tabStars) {
+        tabStars.classList.remove("active");
+        tabStars.style.borderColor = "rgba(255,255,255,0.15)";
+        tabStars.style.background = "rgba(255,255,255,0.05)";
+        tabStars.style.color = "#aaa";
+      }
+
+      if (tonBox) tonBox.style.display = "block";
+      updateTopupTonView();
+      updateTopupSubmitButtonText();
+    });
+  }
+
+  // Copy TON Address button
+  const copyTonBtn = document.getElementById("copyTopupTonAddressBtn");
+  if (copyTonBtn) {
+    copyTonBtn.addEventListener("click", () => {
+      haptic("light");
+      const addr = document.getElementById("topupTonAddressInput")?.value || "UQCj79I9i-C368-MGUSm6_xbdNXsou351zQz_Ddxbx1B4Syu";
+      navigator.clipboard.writeText(addr);
+      showToast("TON Address copied to clipboard!");
+    });
+  }
+
   // Custom Topup input
   const customInput = document.getElementById("customTopupInput");
   if (customInput) {
@@ -797,8 +897,8 @@ function setupTopupModal() {
       if (val && val >= 10) {
         state.topup.selectedStars = val;
         document.querySelectorAll(".topup-pkg-card").forEach((c) => c.classList.remove("selected"));
-        const btnText = document.getElementById("btnTopupText");
-        if (btnText) btnText.textContent = `Top Up ${val} Stars`;
+        updateTopupTonView();
+        updateTopupSubmitButtonText();
       }
     });
   }
@@ -813,38 +913,64 @@ function setupTopupModal() {
       }
 
       const spinner = document.getElementById("btnTopupSpinner");
-      const btnText = document.getElementById("btnTopupText");
       submitBtn.disabled = true;
       if (spinner) spinner.style.display = "inline-block";
 
       try {
-        const res = await fetch("/api/balance/topup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: state.user.id, stars_count: stars })
-        });
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.detail || "Top-up failed");
+        if (state.topup.method === "ton") {
+          // TON Cryptocurrency Top-Up Request
+          const tonAmount = Math.max(0.05, +(stars * 0.0185 / 5.5).toFixed(2));
+          const txHash = document.getElementById("topupTxHashInput")?.value.trim() || "";
+          
+          const res = await fetch("/api/balance/topup/ton", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              user_id: state.user.id,
+              user_name: state.user.username ? `@${state.user.username}` : (state.user.first_name || "User"),
+              stars_count: stars,
+              ton_amount: tonAmount,
+              tx_hash: txHash
+            })
+          });
+          const data = await res.json();
+          if (!data.ok) throw new Error(data.detail || "TON Top-up failed");
 
-        if (data.invoice_link) {
-          if (tg?.openInvoice) {
-            tg.openInvoice(data.invoice_link, async (status) => {
-              if (status === "paid") {
-                haptic("success");
-                showToast(`🎉 +${stars} Stars deposited!`);
-                closeModal();
-                await fetchUserProfile();
-              } else if (status === "cancelled") {
-                showToast("Top-up was cancelled");
-              }
-            });
-          } else {
-            window.open(data.invoice_link, "_blank");
-            showToast("Opening Telegram Stars invoice...");
-            closeModal();
-          }
+          haptic("success");
+          showToast(`🎉 Top-up request for +${stars} Stars submitted!`);
+          closeModal();
+          switchTab("orders");
+          await loadUserOrders();
         } else {
-          showToast("Invoice link ready!");
+          // Telegram Stars Native Invoice Top-Up
+          const res = await fetch("/api/balance/topup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_id: state.user.id, stars_count: stars })
+          });
+          const data = await res.json();
+          if (!data.ok) throw new Error(data.detail || "Top-up failed");
+
+          if (data.invoice_link) {
+            if (tg?.openInvoice) {
+              tg.openInvoice(data.invoice_link, async (status) => {
+                if (status === "paid") {
+                  haptic("success");
+                  showToast(`🎉 +${stars} Stars deposited!`);
+                  closeModal();
+                  await fetchUserProfile();
+                } else if (status === "cancelled") {
+                  showToast("Top-up was cancelled");
+                }
+              });
+            } else {
+              window.open(data.invoice_link, "_blank");
+              showToast("Opening Telegram Stars invoice...");
+              closeModal();
+            }
+          } else {
+            showToast("Invoice link ready!");
+          }
         }
       } catch (err) {
         showToast(`Error: ${err.message}`);
@@ -878,16 +1004,16 @@ function renderTopupPackages() {
       state.topup.selectedStars = pkg.stars;
       const customInput = document.getElementById("customTopupInput");
       if (customInput) customInput.value = "";
-      const btnText = document.getElementById("btnTopupText");
-      if (btnText) btnText.textContent = `Top Up ${pkg.stars} Stars ($${pkg.price_usd.toFixed(2)})`;
+      updateTopupTonView();
+      updateTopupSubmitButtonText();
     });
 
     grid.appendChild(card);
   });
 
   state.topup.selectedStars = pkgs[0].stars;
-  const btnText = document.getElementById("btnTopupText");
-  if (btnText) btnText.textContent = `Top Up ${pkgs[0].stars} Stars ($${pkgs[0].price_usd.toFixed(2)})`;
+  updateTopupTonView();
+  updateTopupSubmitButtonText();
 }
 
 // ================= CHECKOUT MODAL LOGIC =================
