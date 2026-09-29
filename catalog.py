@@ -3,7 +3,7 @@
 
 CATALOG = {
     "topup_packages": [
-        {"stars": 50, "price_usd": 0.99, "badge": "Starter (Min)"},
+        {"stars": 50, "price_usd": 0.99, "badge": "Starter"},
         {"stars": 100, "price_usd": 1.89, "badge": "Popular"},
         {"stars": 250, "price_usd": 4.49, "badge": "+5% Bonus"},
         {"stars": 500, "price_usd": 8.49, "badge": "Best Value"},
@@ -13,9 +13,9 @@ CATALOG = {
     ],
     "stars": {
         "title": "Buy Telegram Stars",
-        "description": "Buy Telegram Stars directly to your Telegram ID account (Fragment style). Minimum 50 Stars.",
+        "description": "Deposit Telegram Stars directly to your Telegram account.",
         "icon": "⭐",
-        "min_stars": 50,
+        "min_stars": 10,
         "packages": [
             {
                 "id": "stars_50",
@@ -23,7 +23,7 @@ CATALOG = {
                 "stars_count": 50,
                 "price_usd": 0.99,
                 "price_stars": 50,
-                "badge": "Min 50 ⭐",
+                "badge": "Starter",
                 "delivery_time": "Instant ⚡",
                 "description": "50 Telegram Stars deposited directly to your Telegram ID account balance."
             },

@@ -256,9 +256,9 @@ async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"🆔 <b>Your Telegram ID:</b> <code>{user.id}</code>\n"
         f"⭐ <b>Stars Balance:</b> <code>{user_balance} ⭐</code>\n\n"
         f"Available services delivered directly to your Telegram account:\n"
-        f"⭐ <b>Buy Telegram Stars:</b> Instant delivery to your Telegram ID account (Min. 50 Stars like Fragment)\n"
+        f"⭐ <b>Buy Telegram Stars:</b> Instant delivery to your Telegram ID account\n"
         f"💎 <b>Telegram Premium:</b> 3, 6, and 12 months subscriptions with instant Telegram payments\n"
-        f"🎁 <b>Official Telegram Gifts:</b> 15 ⭐ to 100 ⭐ collectible gifts for profiles\n"
+        f"🎁 <b>Official Telegram Gifts:</b> Collectible gifts for profiles\n"
         f"👥 <b>Referral Rewards:</b> Earn 5% commission in Stars on friend purchases\n\n"
         f"Choose an option below or open the Web App:"
     )
@@ -266,11 +266,11 @@ async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("🛒 Launch Market App", web_app=WebAppInfo(url=web_url))],
         [
-            InlineKeyboardButton("⭐ Buy Stars (Min 50)", callback_data="view_stars"),
+            InlineKeyboardButton("⭐ Buy Stars", callback_data="view_stars"),
             InlineKeyboardButton("💎 Telegram Premium", callback_data="view_premium")
         ],
         [
-            InlineKeyboardButton("🎁 Profile Gifts (15-100⭐)", callback_data="view_gifts"),
+            InlineKeyboardButton("🎁 Profile Gifts", callback_data="view_gifts"),
             InlineKeyboardButton("👥 Referral Link", callback_data="my_ref")
         ],
         [
@@ -294,12 +294,11 @@ async def start_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(welcome_text, reply_markup=reply_markup, parse_mode="HTML")
 
 async def stars_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Shows Stars packages starting from minimum 50 Stars (Fragment style)."""
+    """Shows Stars packages."""
     user = update.effective_user
     text = (
-        f"⭐ <b>Buy Telegram Stars to Account</b>\n\n"
-        f"Buy Telegram Stars directly to your Telegram ID account (Fragment style).\n"
-        f"⚡ <b>Minimum order:</b> 50 Stars\n\n"
+        f"⭐ <b>Buy Telegram Stars</b>\n\n"
+        f"Deposit Telegram Stars directly to your Telegram account.\n\n"
         f"Select a Stars package to purchase:"
     )
     buttons = [
@@ -342,10 +341,10 @@ async def premium_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="HTML")
 
 async def gifts_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Shows official Telegram Gifts ranging from 15 Stars to 100 Stars."""
+    """Shows official Telegram Gifts."""
     user = update.effective_user
     text = (
-        f"🎁 <b>Official Telegram Gifts (15 to 100 Stars)</b>\n\n"
+        f"🎁 <b>Official Telegram Gifts</b>\n\n"
         f"Collectible gifts displayed on your Telegram profile or convertible into Stars!\n\n"
         f"Select a gift to buy to your account:"
     )

@@ -177,9 +177,8 @@ async def api_create_order(req: CreateOrderRequest):
         invoice_link = None
         order_status = "pending"
 
-        # 1. Minimum 50 Stars check for Stars purchases (Fragment standard)
-        if req.category == "stars" and req.price_stars < 50:
-            raise HTTPException(status_code=400, detail="Minimum purchase is 50 Telegram Stars (Fragment standard).")
+        if req.category == "stars" and req.price_stars < 10:
+            raise HTTPException(status_code=400, detail="Minimum purchase is 10 Telegram Stars.")
 
         # 2. Paying for products with existing Stars balance
         if req.payment_method == "balance":

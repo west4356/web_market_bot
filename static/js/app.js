@@ -6,11 +6,11 @@ const tg = window.Telegram?.WebApp || null;
 const DEFAULT_CATALOG = {
   stars: {
     title: "Buy Telegram Stars",
-    description: "Deposit Telegram Stars directly to your Telegram ID account (Fragment style). Minimum 50 Stars.",
+    description: "Deposit Telegram Stars directly to your Telegram account.",
     icon: "⭐",
-    min_stars: 50,
+    min_stars: 10,
     packages: [
-      { id: "stars_50", name: "50 Telegram Stars", stars_count: 50, price_usd: 0.99, price_stars: 50, badge: "Min 50 ⭐", delivery_time: "Instant ⚡", description: "50 Stars deposited directly to your Telegram ID account." },
+      { id: "stars_50", name: "50 Telegram Stars", stars_count: 50, price_usd: 0.99, price_stars: 50, badge: "Starter", delivery_time: "Instant ⚡", description: "50 Stars deposited directly to your Telegram ID account." },
       { id: "stars_100", name: "100 Telegram Stars", stars_count: 100, price_usd: 1.89, price_stars: 100, badge: "Popular", delivery_time: "Instant ⚡", description: "100 Stars deposited directly to your Telegram ID account." },
       { id: "stars_250", name: "250 Telegram Stars", stars_count: 250, price_usd: 4.49, price_stars: 250, badge: "+5% Bonus", delivery_time: "Instant ⚡", description: "250 Stars deposited directly to your Telegram ID account." },
       { id: "stars_500", name: "500 Telegram Stars", stars_count: 500, price_usd: 8.49, price_stars: 500, badge: "Best Value", delivery_time: "Instant ⚡", description: "500 Stars deposited directly to your Telegram ID account." },
@@ -41,7 +41,7 @@ const DEFAULT_CATALOG = {
   },
   gifts: {
     title: "Telegram Gifts",
-    description: "Official Telegram collectible profile gifts (15 to 100 Stars, nothing more).",
+    description: "Official Telegram collectible profile gifts.",
     icon: "🎁",
     packages: [
       { id: "gift_heart", name: "Heart", emoji: "❤️", stars_value: 15, price_usd: 0.35, price_stars: 15, badge: "15 ⭐", glow_color: "#ff0054", description: "Telegram Heart Profile Gift." },
@@ -58,7 +58,7 @@ const DEFAULT_CATALOG = {
     ]
   },
   topup_packages: [
-    { stars: 50, price_usd: 0.99, badge: "Min 50 ⭐" },
+    { stars: 50, price_usd: 0.99, badge: "Starter" },
     { stars: 100, price_usd: 1.89, badge: "Popular" },
     { stars: 250, price_usd: 4.49, badge: "+5% Bonus" },
     { stars: 500, price_usd: 8.49, badge: "Best Value" },
@@ -120,13 +120,13 @@ const i18n = {
   en: {
     tab_stars: "Buy Stars",
     tab_premium: "Premium",
-    tab_gifts: "Gifts (15-100⭐)",
+    tab_gifts: "Gifts",
     tab_referrals: "Referrals",
     tab_orders: "Orders",
     label_recipient: "Recipient Telegram ID or Username",
     select_duration: "Select Subscription Duration",
     label_gift_recipient: "Recipient Telegram ID or Username",
-    choose_gift: "Choose a Collectible Gift (15 ⭐ - 100 ⭐)",
+    choose_gift: "Choose a Collectible Gift",
     btn_order_stars: "Buy Stars to Account",
     btn_order_premium: "Buy Telegram Premium",
     btn_order_gift: "Send Telegram Gift",
@@ -136,13 +136,13 @@ const i18n = {
   ru: {
     tab_stars: "Купить Звёзды",
     tab_premium: "Премиум",
-    tab_gifts: "Подарки (15-100⭐)",
+    tab_gifts: "Подарки",
     tab_referrals: "Рефералы",
     tab_orders: "Заказы",
     label_recipient: "Telegram ID или юзернейм",
     select_duration: "Срок подписки",
     label_gift_recipient: "Telegram ID или юзернейм",
-    choose_gift: "Выберите подарок (от 15 до 100 ⭐)",
+    choose_gift: "Выберите подарок",
     btn_order_stars: "Купить Звёзды на аккаунт",
     btn_order_premium: "Купить Telegram Premium",
     btn_order_gift: "Отправить подарок",
@@ -152,13 +152,13 @@ const i18n = {
   uz: {
     tab_stars: "Yulduzlar olish",
     tab_premium: "Premium",
-    tab_gifts: "Sovg'alar (15-100⭐)",
+    tab_gifts: "Sovg'alar",
     tab_referrals: "Referallar",
     tab_orders: "Buyurtmalar",
     label_recipient: "Telegram ID yoki username",
     select_duration: "Obuna muddatini tanlang",
     label_gift_recipient: "Telegram ID yoki username",
-    choose_gift: "Sovg'ani tanlang (15 dan 100 ⭐ gacha)",
+    choose_gift: "Sovg'ani tanlang",
     btn_order_stars: "Akkauntga yulduzlar olish",
     btn_order_premium: "Telegram Premium sotib olish",
     btn_order_gift: "Sovg'a yuborish",

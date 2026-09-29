@@ -56,7 +56,7 @@
       </button>
       <button class="nav-tab" data-tab="gifts">
         <span class="tab-icon">🎁</span>
-        <span class="tab-label" data-i18n="tab_gifts">Gifts (15-100⭐)</span>
+        <span class="tab-label" data-i18n="tab_gifts">Gifts</span>
       </button>
       <button class="nav-tab" data-tab="referrals">
         <span class="tab-icon">👥</span>
@@ -72,15 +72,8 @@
     <!-- Main Content Area -->
     <main class="main-content">
       
-      <!-- ================= TAB 1: BUY TELEGRAM STARS (FIRST PAGE, MIN 50 STARS FRAGMENT STYLE) ================= -->
+      <!-- ================= TAB 1: BUY TELEGRAM STARS ================= -->
       <section id="tab-stars" class="tab-content active">
-        <!-- Hero Card -->
-        <div class="hero-card reactions-hero">
-          <div class="hero-badge">⚡ Fragment Style • Min. 50 Stars</div>
-          <h2>Buy Telegram Stars</h2>
-          <p>Instant deposit of Telegram Stars directly to your Telegram ID account balance (not to web apps account, not to channel posts). Minimum 50 Stars like Fragment!</p>
-        </div>
-
         <!-- Target Username / ID Input -->
         <div class="input-card">
           <label for="starsTarget" class="input-label">
@@ -92,13 +85,13 @@
             <input type="text" id="starsTarget" placeholder="@username or Telegram ID (e.g. 123456789)" />
             <button class="myself-btn" id="starsSelfBtn" type="button">For Myself</button>
           </div>
-          <span class="input-hint">⚡ Stars are credited directly to this Telegram ID account balance!</span>
+          <span class="input-hint">⚡ Delivered directly to this Telegram ID account.</span>
         </div>
 
         <!-- Package Selection -->
         <div class="section-block">
           <div class="section-title">
-            <span>Select Stars Package (Min. 50 ⭐)</span>
+            <span>Select Stars Package</span>
           </div>
           <div class="packages-grid" id="starsPackagesGrid">
             <!-- Injected by app.js -->
@@ -108,11 +101,11 @@
         <!-- Custom Stars Amount Option -->
         <div class="custom-stars-card">
           <div class="custom-header">
-            <span>✨ Or Enter Custom Stars (Min. 50):</span>
+            <span>✨ Custom Stars Amount:</span>
             <span class="custom-price-tag" id="customPriceTag">$0.00</span>
           </div>
           <div class="custom-input-row">
-            <input type="number" id="customStarsInput" min="50" max="50000" step="10" placeholder="Min. 50 Stars (e.g. 500)" />
+            <input type="number" id="customStarsInput" min="10" max="50000" step="10" placeholder="Enter amount (e.g. 500)" />
             <span class="stars-unit">Stars ⭐</span>
           </div>
         </div>
@@ -126,15 +119,8 @@
         </div>
       </section>
 
-      <!-- ================= TAB 2: TELEGRAM PREMIUM (3m, 6m, 1y SUBSCRIPTIONS) ================= -->
+      <!-- ================= TAB 2: TELEGRAM PREMIUM ================= -->
       <section id="tab-premium" class="tab-content">
-        <!-- Banner Card -->
-        <div class="hero-card premium-hero">
-          <div class="hero-badge">💎 Instant Telegram Payments</div>
-          <h2>Telegram Premium Subscriptions</h2>
-          <p>Activate 3 months, 6 months, or 12 months (1 year) Telegram Premium subscriptions for your account or gift to friends with Telegram payments.</p>
-        </div>
-
         <!-- Target Username Input -->
         <div class="input-card">
           <label for="premTarget" class="input-label">
@@ -178,15 +164,8 @@
         </div>
       </section>
 
-      <!-- ================= TAB 3: TELEGRAM GIFTS (15 TO 100 STARS) ================= -->
+      <!-- ================= TAB 3: TELEGRAM GIFTS ================= -->
       <section id="tab-gifts" class="tab-content">
-        <!-- Banner Card -->
-        <div class="hero-card gifts-hero">
-          <div class="hero-badge">🎁 15 to 100 Stars • Nothing More</div>
-          <h2>Telegram Profile Gifts</h2>
-          <p>Buy official Telegram collectible profile gifts ranging from 15 Stars to 100 Stars. Showcase on your profile or convert into Stars!</p>
-        </div>
-
         <!-- Recipient Username -->
         <div class="input-card">
           <label for="giftTarget" class="input-label">
@@ -226,7 +205,7 @@
         <!-- Gifts Showcase Grid -->
         <div class="section-block">
           <div class="section-title">
-            <span data-i18n="choose_gift">Choose a Collectible Gift (15 ⭐ - 100 ⭐)</span>
+            <span data-i18n="choose_gift">Choose a Collectible Gift</span>
           </div>
           <div class="gifts-grid modern-gifts-grid" id="giftsGrid">
             <!-- Injected by app.js -->
@@ -244,13 +223,6 @@
 
       <!-- ================= TAB 4: REFERRAL SYSTEM ================= -->
       <section id="tab-referrals" class="tab-content">
-        <!-- Hero Card -->
-        <div class="hero-card ref-hero">
-          <div class="hero-badge">👥 Earn 5% Passive Stars</div>
-          <h2>Invite Friends & Earn Stars</h2>
-          <p>Share your link with friends. Whenever they purchase Paid Reactions, Premium or Gifts, you receive <b>5% of their order value in Stars ⭐</b> directly into your balance!</p>
-        </div>
-
         <!-- Referral Link Box -->
         <div class="ref-link-card">
           <div class="ref-link-label">Your Unique Referral Link:</div>
