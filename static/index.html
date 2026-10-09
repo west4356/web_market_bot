@@ -339,11 +339,11 @@
         </div>
         <div class="modal-body">
           <!-- Topup Method Selector -->
-          <div class="topup-method-selector" style="display:flex; gap:8px; margin-bottom:14px;">
-            <button type="button" class="topup-method-tab active" data-topup-method="stars" id="tabTopupStars" style="flex:1; padding:10px; border-radius:10px; border:1px solid rgba(0,242,96,0.4); background:rgba(0,242,96,0.12); color:#fff; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <div class="topup-method-selector">
+            <button type="button" class="topup-method-tab active" data-topup-method="stars" id="tabTopupStars">
               <span>⭐ Telegram Stars</span>
             </button>
-            <button type="button" class="topup-method-tab" data-topup-method="ton" id="tabTopupTon" style="flex:1; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.05); color:#aaa; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <button type="button" class="topup-method-tab" data-topup-method="ton" id="tabTopupTon">
               <span>💎 TON Crypto</span>
             </button>
           </div>
@@ -359,29 +359,29 @@
           </div>
 
           <!-- TON Crypto Details Box -->
-          <div id="topupTonDetailsBox" style="display:none; margin-top:14px; padding:14px; background:rgba(0,152,234,0.08); border:1px solid rgba(0,152,234,0.3); border-radius:14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-              <span style="font-size:13px; color:#aaa;">Amount to send:</span>
-              <strong id="topupTonAmountText" style="font-size:16px; color:#0098ea;">0.20 TON</strong>
+          <div id="topupTonDetailsBox" class="topup-ton-box" style="display:none;">
+            <div class="topup-ton-amount-row">
+              <span class="topup-ton-label">Amount to send:</span>
+              <strong id="topupTonAmountText" class="topup-ton-amount">0.20 TON</strong>
             </div>
-            <div class="crypto-qr-container" style="text-align:center; margin-bottom:12px;">
-              <img id="topupTonQrImg" src="" alt="TON QR" style="width:160px; height:160px; border-radius:10px; border:1px solid rgba(255,255,255,0.2);" />
+            <div class="crypto-qr-container">
+              <img id="topupTonQrImg" src="" alt="TON QR" />
             </div>
-            <div class="crypto-addr-wrapper" style="margin-bottom:10px;">
-              <span class="crypto-label" style="font-size:11px; color:#888;">TON Wallet Address:</span>
-              <div class="crypto-addr-row" style="display:flex; gap:8px; margin-top:4px;">
-                <input type="text" id="topupTonAddressInput" readonly value="UQCj79I9i-C368-MGUSm6_xbdNXsou351zQz_Ddxbx1B4Syu" style="flex:1; font-size:12px; padding:8px 10px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff;" />
-                <button type="button" class="copy-btn" id="copyTopupTonAddressBtn" style="padding:8px 14px; background:#0098ea; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer;">Copy</button>
+            <div class="crypto-addr-wrapper">
+              <span class="crypto-label">TON Wallet Address:</span>
+              <div class="crypto-addr-row">
+                <input type="text" id="topupTonAddressInput" readonly value="UQCj79I9i-C368-MGUSm6_xbdNXsou351zQz_Ddxbx1B4Syu" />
+                <button type="button" class="copy-btn" id="copyTopupTonAddressBtn">Copy</button>
               </div>
             </div>
             <div style="margin-top:10px;">
-              <a id="btnOpenTonkeeper" href="#" target="_blank" style="display:flex; align-items:center; justify-content:center; gap:6px; padding:10px; background:rgba(0,152,234,0.2); border:1px solid #0098ea; border-radius:10px; color:#0098ea; font-weight:700; text-decoration:none; margin-bottom:10px;">
+              <a id="btnOpenTonkeeper" href="#" target="_blank" class="tonkeeper-btn">
                 <span>🚀 Open in Tonkeeper / Wallet</span>
               </a>
             </div>
             <div class="tx-input-wrapper">
-              <label for="topupTxHashInput" style="font-size:11px; color:#888; display:block; margin-bottom:4px;">Transaction Hash / Sender Info (Optional):</label>
-              <input type="text" id="topupTxHashInput" placeholder="Paste Tx Hash or your TON address" style="width:100%; box-sizing:border-box; padding:8px 10px; font-size:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff;" />
+              <label for="topupTxHashInput">Transaction Hash / Sender Info (Optional):</label>
+              <input type="text" id="topupTxHashInput" placeholder="Paste Tx Hash or your TON address" />
             </div>
           </div>
         </div>
